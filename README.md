@@ -1,2 +1,2 @@
 # SkyHigh
-System rezerwacji lotów internetowych
+Flight ticket booking system
