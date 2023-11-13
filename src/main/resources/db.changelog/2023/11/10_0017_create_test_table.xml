@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="10_0017_create_test_table" author="mbogusz178">
+        <createTable tableName="SKYHIGH_TEST">
+            <column name="test_id" type="int">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="test_column" type="varchar"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
