@@ -25,16 +25,16 @@ public class PlaneModel {
     @SequenceGenerator(name = "plane_model_generator", sequenceName = "plane_model_sequence")
     private Long id;
 
-    @Column(name = "MANUFACTURER")
+    @Column(name = "MANUFACTURER", nullable = false)
     private String manufacturer;
 
-    @Column(name = "FAMILY")
+    @Column(name = "FAMILY", nullable = false)
     private String family;
 
-    @Column(name = "MODEL_NUMBER")
+    @Column(name = "MODEL_NUMBER", nullable = false)
     private int modelNumber;
 
-    @Column(name = "VERSION")
+    @Column(name = "VERSION", nullable = false)
     private int version;
 
     @Formula("concat(manufacturer, ' ', family, '-', model_number, ' v', version)")

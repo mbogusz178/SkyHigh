@@ -23,4 +23,8 @@ public class Plane {
     @JoinColumn(name = "MODEL", nullable = false)
     private PlaneModel model;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SEAT_CONFIGURATION", nullable = false)
+    private SeatConfiguration seatConfiguration;
+
 }
