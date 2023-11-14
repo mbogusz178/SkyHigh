@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="14_1941_create_table_model.xml" author="mbogusz178">
+        <createTable tableName="PLANE_MODEL">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="manufacturer" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="family" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="model_number" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="PLANE_MODEL" columnNames="manufacturer, family, model_number, version"/>
+        <createSequence sequenceName="plane_model_sequence" minValue="0" incrementBy="1"/>
+    </changeSet>
+
+</databaseChangeLog>
