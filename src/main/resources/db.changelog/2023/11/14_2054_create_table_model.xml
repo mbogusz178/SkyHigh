@@ -5,7 +5,7 @@
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
     <changeSet id="14_2054_create_table_model" author="mbogusz178">
-        <createTable tableName="PLANE_MODEL">
+        <createTable tableName="plane_model">
             <column name="id" type="bigint">
                 <constraints primaryKey="true"/>
             </column>
@@ -22,7 +22,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addUniqueConstraint tableName="PLANE_MODEL" columnNames="manufacturer, family, model_number, version"/>
+        <addUniqueConstraint tableName="plane_model" columnNames="manufacturer, family, model_number, version"/>
         <createSequence sequenceName="plane_model_sequence" minValue="0" incrementBy="1"/>
     </changeSet>
 

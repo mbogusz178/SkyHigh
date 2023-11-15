@@ -15,26 +15,26 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "PLANE_MODEL", uniqueConstraints = {
+@Table(name = "plane_model", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"manufacturer", "family", "model_number", "version"})
 })
 public class PlaneModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "plane_model_generator")
-    @SequenceGenerator(name = "plane_model_generator", sequenceName = "plane_model_sequence")
+    @SequenceGenerator(name = "plane_model_generator", sequenceName = "plane_model_sequence", initialValue = 0, allocationSize = 1)
     private Long id;
 
-    @Column(name = "MANUFACTURER", nullable = false)
+    @Column(name = "manufacturer", nullable = false)
     private String manufacturer;
 
-    @Column(name = "FAMILY", nullable = false)
+    @Column(name = "family", nullable = false)
     private String family;
 
-    @Column(name = "MODEL_NUMBER", nullable = false)
+    @Column(name = "model_number", nullable = false)
     private int modelNumber;
 
-    @Column(name = "VERSION", nullable = false)
+    @Column(name = "version", nullable = false)
     private int version;
 
     @Formula("concat(manufacturer, ' ', family, '-', model_number, ' v', version)")

@@ -4,8 +4,8 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
-    <changeSet id="14_1939_create_table_plane" author="mbogusz178">
-        <createTable tableName="PLANE">
+    <changeSet id="15_1531_create_table_plane" author="mbogusz178">
+        <createTable tableName="plane">
             <column name="reg_id" type="varchar(10)">
                 <constraints primaryKey="true"/>
             </column>
@@ -13,7 +13,7 @@
                 <constraints nullable="false" foreignKeyName="fk_plane_model" references="plane_model(id)"/>
             </column>
             <column name="seat_configuration" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_plane_seat_config" references="seat_config(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_plane_seat_config" references="seat_configuration(id)"/>
             </column>
             <column name="flight_class" type="bigint">
                 <constraints nullable="false" foreignKeyName="fk_plane_flight_class" references="flight_class(id)"/>

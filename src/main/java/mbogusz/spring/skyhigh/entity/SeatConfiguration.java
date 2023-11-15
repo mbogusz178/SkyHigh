@@ -16,18 +16,18 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "SEAT_CONFIGURATION")
+@Table(name = "seat_configuration")
 public class SeatConfiguration {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seat_config_generator")
-    @SequenceGenerator(name = "seat_config_generator", sequenceName = "seat_config_sequence")
+    @SequenceGenerator(name = "seat_config_generator", sequenceName = "seat_config_sequence", initialValue = 0, allocationSize = 1)
     private Long id;
 
-    @Column(name = "NUM_ROWS", nullable = false)
+    @Column(name = "num_rows", nullable = false)
     private int numRows;
 
-    @Column(name = "ROW_CONFIG", nullable = false)
+    @Column(name = "row_config", nullable = false)
     private String numConfig;
 
     @OneToMany(mappedBy = "seatConfiguration", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -35,7 +35,7 @@ public class SeatConfiguration {
 
     public int getSeatCount() {
         String[] aisleConfigs = numConfig.split("-");
-        int rowSize = Arrays.stream(aisleConfigs).map(Integer::parseInt).mapToInt(i -> i).sum();
+        int rowSize = Arrays.stream(aisleConfigs).mapToInt(Integer::parseInt).sum();
         return rowSize * numRows;
     }
 }

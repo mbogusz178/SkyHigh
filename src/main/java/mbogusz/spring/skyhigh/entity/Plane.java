@@ -12,19 +12,23 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "PLANE")
+@Table(name = "plane")
 public class Plane {
 
     @Id
-    @Column(name = "REG_ID")
+    @Column(name = "reg_id")
     private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MODEL", nullable = false)
+    @JoinColumn(name = "model", nullable = false)
     private PlaneModel model;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SEAT_CONFIGURATION", nullable = false)
+    @JoinColumn(name = "seat_configuration", nullable = false)
     private SeatConfiguration seatConfiguration;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "flight_class", nullable = false)
+    private FlightClass flightClass;
 
 }
