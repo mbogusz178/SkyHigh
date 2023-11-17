@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mbogusz.spring.skyhigh.util.Identifiable;
 
 import javax.persistence.*;
 
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "plane")
-public class Plane {
+public class Plane implements Identifiable<String> {
 
     @Id
     @Column(name = "reg_id")

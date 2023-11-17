@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mbogusz.spring.skyhigh.util.Identifiable;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "seat_configuration")
-public class SeatConfiguration {
+public class SeatConfiguration implements Identifiable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seat_config_generator")

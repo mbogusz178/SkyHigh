@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mbogusz.spring.skyhigh.util.Identifiable;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ import java.util.Set;
 @Table(name = "plane_model", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"manufacturer", "family", "model_number", "version"})
 })
-public class PlaneModel {
+public class PlaneModel implements Identifiable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "plane_model_generator")

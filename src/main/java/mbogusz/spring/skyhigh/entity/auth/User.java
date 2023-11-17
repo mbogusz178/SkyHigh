@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mbogusz.spring.skyhigh.util.Identifiable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -20,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User implements UserDetails {
+public class User implements UserDetails, Identifiable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
