@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/planeModels")
+@RequestMapping("/planeModels")
 public class PlaneModelEndpoint extends BaseEndpoint<Long, PlaneModel> {
 
     private final PlaneModelRepository repository;
