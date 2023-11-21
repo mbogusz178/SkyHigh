@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 @Mapper(componentModel = "spring", uses = {SeatConfigurationRepository.class})
 public abstract class SeatConfigurationMapper extends EntityMapper<Long, SeatConfiguration, SeatConfigurationDTO> {
 
-    private final SeatConfigurationRepository repository;
+    private SeatConfigurationRepository repository;
 
     @Override
     protected JpaRepository<SeatConfiguration, Long> getRepository() {
@@ -25,7 +25,7 @@ public abstract class SeatConfigurationMapper extends EntityMapper<Long, SeatCon
     }
 
     @Autowired
-    public SeatConfigurationMapper(SeatConfigurationRepository repository) {
+    public void setRepository(SeatConfigurationRepository repository) {
         this.repository = repository;
     }
 }

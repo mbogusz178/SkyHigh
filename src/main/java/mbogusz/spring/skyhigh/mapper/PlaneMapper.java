@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 @Mapper(componentModel = "spring", uses = {PlaneRepository.class})
 public abstract class PlaneMapper extends EntityMapper<String, Plane, PlaneDTO> {
 
-    private final PlaneRepository repository;
+    private PlaneRepository repository;
 
     @Override
     protected JpaRepository<Plane, String> getRepository() {
@@ -25,7 +25,7 @@ public abstract class PlaneMapper extends EntityMapper<String, Plane, PlaneDTO> 
     }
 
     @Autowired
-    public PlaneMapper(PlaneRepository repository) {
+    public void setRepository(PlaneRepository repository) {
         this.repository = repository;
     }
 }
