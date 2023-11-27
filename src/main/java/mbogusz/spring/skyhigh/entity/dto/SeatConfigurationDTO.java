@@ -14,4 +14,6 @@ import mbogusz.spring.skyhigh.util.Identifiable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SeatConfigurationDTO implements Identifiable<Long> {
     private Long id;
+    private int numRows;
+    private String rowConfig;
 }

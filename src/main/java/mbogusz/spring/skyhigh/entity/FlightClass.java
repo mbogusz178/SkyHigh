@@ -34,7 +34,4 @@ public class FlightClass implements Identifiable<Long> {
 
     @Column(name = "max_hand_luggage_dimensions")
     private String maxHandLuggageDimensions;
-
-    @OneToMany(mappedBy = "flightClass", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Plane> planesWithFlightClass = new HashSet<>();
 }

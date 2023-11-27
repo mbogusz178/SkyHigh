@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mbogusz.spring.skyhigh.util.Identifiable;
 
+import javax.validation.constraints.Email;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,6 +16,7 @@ import mbogusz.spring.skyhigh.util.Identifiable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PassengerDTO implements Identifiable<Long> {
     private Long id;
+    @Email
     private String email;
     private String password;
     private String firstName;

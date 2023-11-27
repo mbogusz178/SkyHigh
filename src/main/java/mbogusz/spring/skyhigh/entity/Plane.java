@@ -27,9 +27,4 @@ public class Plane implements Identifiable<String> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seat_configuration", nullable = false)
     private SeatConfiguration seatConfiguration;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "flight_class", nullable = false)
-    private FlightClass flightClass;
-
 }

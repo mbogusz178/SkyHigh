@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mbogusz.spring.skyhigh.util.Identifiable;
-import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.util.Arrays;
@@ -29,14 +28,17 @@ public class SeatConfiguration implements Identifiable<Long> {
     private int numRows;
 
     @Column(name = "row_config", nullable = false)
-    private String numConfig;
+    private String rowConfig;
 
     @OneToMany(mappedBy = "seatConfiguration", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Plane> planesWithSeatConfig = new HashSet<>();
 
     public int getSeatCount() {
-        String[] aisleConfigs = numConfig.split("-");
-        int rowSize = Arrays.stream(aisleConfigs).mapToInt(Integer::parseInt).sum();
-        return rowSize * numRows;
+        return getRowSize() * numRows;
+    }
+
+    public int getRowSize() {
+        String[] aisleConfigs = rowConfig.split("-");
+        return Arrays.stream(aisleConfigs).mapToInt(Integer::parseInt).sum();
     }
 }
