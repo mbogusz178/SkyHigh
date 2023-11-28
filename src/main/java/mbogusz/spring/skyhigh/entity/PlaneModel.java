@@ -41,6 +41,6 @@ public class PlaneModel implements Identifiable<Long> {
     @Formula("concat(manufacturer, ' ', family, '-', model_number, ' v', version)")
     private String fullName;
 
-    @OneToMany(mappedBy = "model", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "model", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Plane> planesOfModel = new HashSet<>();
 }

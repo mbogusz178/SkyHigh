@@ -27,6 +27,10 @@ public class Seat implements Identifiable<Long> {
     @JoinColumn(name = "plane", nullable = false)
     private Plane plane;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "flight", nullable = false)
+    private Flight flight;
+
     @ValidRowNumber
     @Column(name = "row_number", nullable = false)
     private int rowNumber;

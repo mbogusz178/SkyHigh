@@ -30,7 +30,7 @@ public class SeatConfiguration implements Identifiable<Long> {
     @Column(name = "row_config", nullable = false)
     private String rowConfig;
 
-    @OneToMany(mappedBy = "seatConfiguration", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "seatConfiguration", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Plane> planesWithSeatConfig = new HashSet<>();
 
     public int getSeatCount() {
