@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/passengers")
+@RequestMapping("/api/passengers")
 public class PassengerEndpoint extends BaseEndpoint<Long, Passenger, PassengerDTO> {
 
     private final PassengerRepository repository;

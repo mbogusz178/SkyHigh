@@ -17,8 +17,8 @@ import java.sql.Timestamp;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FlightDTO implements Identifiable<Long> {
     private Long id;
-    private Long source;
-    private Long destination;
+    private String source;
+    private String destination;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Timestamp departureDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")

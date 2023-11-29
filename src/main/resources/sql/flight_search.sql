@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION search_flights(sourceParam varchar, destinationParam varchar, departureAfter timestamptz, departureBefore timestamptz, arrivalAfter timestamptz, arrivalBefore timestamptz, adultTicketMinPrice double precision, adultTicketMaxPrice double precision, childTicketMinPrice double precision, childTicketMaxPrice double precision)
-       RETURNS flight
+       RETURNS SETOF flight
        AS $$ SELECT f.id, f.source, f.destination, f.departure_date, f.arrival_date, f.ticket_price_adult, f.ticket_price_child
             FROM flight f
             JOIN airport s ON f.source = s.iata

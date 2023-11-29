@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/flightClasses")
+@RequestMapping("/api/flightClasses")
 public class FlightClassEndpoint extends BaseEndpoint<Long, FlightClass, FlightClassDTO> {
 
     private final FlightClassRepository repository;

@@ -14,7 +14,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "seat")
+@Table(name = "airport")
 public class Airport implements Identifiable<String> {
 
     @Id
