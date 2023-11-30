@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/seatConfigurations")
+@RequestMapping("/seatConfigurations")
 public class SeatConfigurationEndpoint extends BaseEndpoint<Long, SeatConfiguration, SeatConfigurationDTO> {
 
     private final SeatConfigurationRepository repository;

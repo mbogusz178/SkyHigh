@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/flights")
+@RequestMapping("/flights")
 public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
 
     private final FlightRepository repository;
