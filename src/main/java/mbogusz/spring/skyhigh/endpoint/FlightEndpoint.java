@@ -2,9 +2,13 @@ package mbogusz.spring.skyhigh.endpoint;
 
 import mbogusz.spring.skyhigh.entity.Flight;
 import mbogusz.spring.skyhigh.entity.dto.FlightDTO;
+import mbogusz.spring.skyhigh.entity.dto.FlightSearchResponseDTO;
 import mbogusz.spring.skyhigh.mapper.EntityMapper;
 import mbogusz.spring.skyhigh.mapper.FlightMapper;
+import mbogusz.spring.skyhigh.mapper.FlightSearchResponseMapper;
+import mbogusz.spring.skyhigh.mapper.context.PassengerComposition;
 import mbogusz.spring.skyhigh.repository.FlightRepository;
+import mbogusz.spring.skyhigh.service.TotalFlightPriceFilterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,6 +30,8 @@ public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
 
     private final FlightRepository repository;
     private final FlightMapper mapper;
+    private final FlightSearchResponseMapper searchResponseMapper;
+    private final TotalFlightPriceFilterService priceFilterService;
 
     @Override
     public EntityMapper<Long, Flight, FlightDTO> getMapper() {
@@ -38,28 +44,31 @@ public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
     }
 
     @Autowired
-    public FlightEndpoint(FlightRepository repository, FlightMapper mapper) {
+    public FlightEndpoint(FlightRepository repository, FlightMapper mapper, FlightSearchResponseMapper searchResponseMapper, TotalFlightPriceFilterService priceFilterService) {
         this.repository = repository;
         this.mapper = mapper;
+        this.searchResponseMapper = searchResponseMapper;
+        this.priceFilterService = priceFilterService;
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<FlightDTO>> search(@RequestParam(required = false) String source,
-                                                  @RequestParam(required = false) String destination,
-                                                  @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'") Date departureAfter,
-                                                  @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'") Date departureBefore,
-                                                  @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'") Date arrivalAfter,
-                                                  @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'") Date arrivalBefore,
-                                                  @RequestParam(required = false) Double adultTicketMinPrice,
-                                                  @RequestParam(required = false) Double adultTicketMaxPrice,
-                                                  @RequestParam(required = false) Double childTicketMinPrice,
-                                                  @RequestParam(required = false) Double childTicketMaxPrice) {
+    public ResponseEntity<List<FlightSearchResponseDTO>> search(@RequestParam(required = false) String source,
+                                                                @RequestParam(required = false) String destination,
+                                                                @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'") Date departureAfter,
+                                                                @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'") Date departureBefore,
+                                                                @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'") Date arrivalAfter,
+                                                                @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'") Date arrivalBefore,
+                                                                @RequestParam Integer adultCount,
+                                                                @RequestParam Integer childCount,
+                                                                @RequestParam(required = false) Double flightTicketMinPrice,
+                                                                @RequestParam(required = false) Double flightTicketMaxPrice) {
         Timestamp departureAfterTimestamp = departureAfter != null ? new Timestamp(departureAfter.getTime()) : null;
         Timestamp departureBeforeTimestamp = departureBefore != null ? new Timestamp(departureBefore.getTime()) : null;
         Timestamp arrivalBeforeTimestamp = arrivalBefore != null ? new Timestamp(arrivalBefore.getTime()) : null;
         Timestamp arrivalAfterTimestamp = arrivalAfter != null ? new Timestamp(arrivalAfter.getTime()) : null;
-        List<Flight> flights = repository.searchFlights(source, destination, departureAfterTimestamp, departureBeforeTimestamp, arrivalAfterTimestamp, arrivalBeforeTimestamp, adultTicketMinPrice, adultTicketMaxPrice, childTicketMinPrice, childTicketMaxPrice);
-        List<FlightDTO> flightDTOs = flights.stream().map(mapper::toDto).collect(Collectors.toList());
+        List<Flight> flights = repository.searchFlights(source, destination, departureAfterTimestamp, departureBeforeTimestamp, arrivalAfterTimestamp, arrivalBeforeTimestamp);
+        List<Flight> finalFlights = priceFilterService.filterTotalFlightPrice(flights, adultCount, childCount, flightTicketMinPrice, flightTicketMaxPrice);
+        List<FlightSearchResponseDTO> flightDTOs = finalFlights.stream().map(flight -> searchResponseMapper.toDto(flight, new PassengerComposition(adultCount, childCount))).collect(Collectors.toList());
         return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
     }
 }

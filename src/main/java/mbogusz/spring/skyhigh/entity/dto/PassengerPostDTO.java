@@ -14,7 +14,7 @@ import javax.validation.constraints.Email;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PassengerDTO implements Identifiable<Long> {
+public class PassengerPostDTO implements Identifiable<Long> {
     private Long id;
     @Email
     private String email;

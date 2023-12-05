@@ -1,14 +1,12 @@
 package mbogusz.spring.skyhigh.entity.auth;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,7 +14,8 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "passenger")
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
+@ToString
 public class Passenger extends User {
 
     @Column(name = "first_name", nullable = false)
@@ -30,4 +29,9 @@ public class Passenger extends User {
 
     @Column(name = "country", nullable = false)
     private String country;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("PASSENGER"));
+    }
 }

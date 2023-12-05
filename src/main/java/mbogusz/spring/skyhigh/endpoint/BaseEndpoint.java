@@ -16,7 +16,7 @@ public abstract class BaseEndpoint<ID, E extends Identifiable<ID>, DTO extends I
 
     public abstract EntityMapper<ID, E, DTO> getMapper();
     public abstract JpaRepository<E, ID> getRepository();
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<DTO>> getAll() {
         return new ResponseEntity<>(getRepository().findAll().stream().map(e -> getMapper().toDto(e)).collect(Collectors.toList()), HttpStatus.OK);
     }

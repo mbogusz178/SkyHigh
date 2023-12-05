@@ -19,6 +19,7 @@
 		<node.version>v20.9.0</node.version>
 		<npm.version>10.1.0</npm.version>
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<profiles>
 		<profile>
@@ -216,9 +217,9 @@
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
-						<phase>prepare-package</phase>
+						<phase>generate-resources</phase>
 						<configuration>
-							<outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+							<outputDirectory>${project.build.directory}/classes/public</outputDirectory>
 							<resources>
 								<resource>
 									<directory>${frontend.directory}/build</directory>

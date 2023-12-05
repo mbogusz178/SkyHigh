@@ -1,9 +1,6 @@
 package mbogusz.spring.skyhigh.entity.auth;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import mbogusz.spring.skyhigh.util.Identifiable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,8 +14,9 @@ import java.util.Collection;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user")
+@Table(name = "app_user")
 @Inheritance(strategy = InheritanceType.JOINED)
+@ToString
 public class User implements UserDetails, Identifiable<Long> {
 
     @Id
@@ -50,21 +48,21 @@ public class User implements UserDetails, Identifiable<Long> {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

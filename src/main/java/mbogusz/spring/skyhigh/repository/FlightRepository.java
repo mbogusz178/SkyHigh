@@ -13,27 +13,19 @@ import java.util.List;
 
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Long> {
-    @Query(nativeQuery = true, value = "SELECT * FROM search_flights(:source, :destination, :departureAfter, :departureBefore, :arrivalAfter, :arrivalBefore, :adultTicketMinPrice, :adultTicketMaxPrice, :childTicketMinPrice, :childTicketMaxPrice)")
+    @Query(nativeQuery = true, value = "SELECT * FROM search_flights(:source, :destination, :departureAfter, :departureBefore, :arrivalAfter, :arrivalBefore)")
     List<Flight> searchFlights(@Param("source") String source,
                                @Param("destination") String destination,
                                @Param("departureAfter") Timestamp departureAfter,
                                @Param("departureBefore")Timestamp departureBefore,
                                @Param("arrivalAfter") Timestamp arrivalAfter,
-                               @Param("arrivalBefore") Timestamp arrivalBefore,
-                               @Param("adultTicketMinPrice") Double adultTicketMinPrice,
-                               @Param("adultTicketMaxPrice") Double adultTicketMaxPrice,
-                               @Param("childTicketMinPrice") Double childTicketMinPrice,
-                               @Param("childTicketMaxPrice") Double childTicketMaxPrice);
-    @Query(nativeQuery = true, value = "SELECT * FROM search_flights(:source, :destination, :departureAfter, :departureBefore, :arrivalAfter, :arrivalBefore, :adultTicketMinPrice, :adultTicketMaxPrice, :childTicketMinPrice, :childTicketMaxPrice)")
+                               @Param("arrivalBefore") Timestamp arrivalBefore);
+    @Query(nativeQuery = true, value = "SELECT * FROM search_flights(:source, :destination, :departureAfter, :departureBefore, :arrivalAfter, :arrivalBefore)")
     Page<Flight> searchFlightsPaginated(@Param("source") String source,
                                         @Param("destination") String destination,
                                         @Param("departureAfter") Timestamp departureAfter,
                                         @Param("departureBefore")Timestamp departureBefore,
                                         @Param("arrivalAfter") Timestamp arrivalAfter,
                                         @Param("arrivalBefore") Timestamp arrivalBefore,
-                                        @Param("adultTicketMinPrice") Double adultTicketMinPrice,
-                                        @Param("adultTicketMaxPrice") Double adultTicketMaxPrice,
-                                        @Param("childTicketMinPrice") Double childTicketMinPrice,
-                                        @Param("childTicketMaxPrice") Double childTicketMaxPrice,
                                         Pageable pageable);
 }
