@@ -17,24 +17,24 @@ import javax.validation.constraints.NotNull;
 @ToString
 @PasswordMatches
 public class PassengerRegistrationDTO {
-    @Email
+    @Email(message = "Nieprawidłowy format adresu email")
     private String email;
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "Wpisz hasło")
     private String password;
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "Wpisz ponownie hasło")
     private String matchingPassword;
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "Wpisz imię")
     private String firstName;
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "Wpisz nazwisko")
     private String lastName;
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "Wpisz miasto")
     private String city;
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "Wpisz kraj")
     private String country;
 }

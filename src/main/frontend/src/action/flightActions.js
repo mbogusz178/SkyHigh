@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {FLIGHT_SEARCH_SUCCESSFUL, ERROR} from "./responseTypes";
 import { searchFlights } from "../slice/flightSlice";
 
 export const getFlights = (dispatch, source, destination, departureAfter, departureBefore, arrivalAfter, arrivalBefore, adultCount, childCount, flightTicketMinPrice, flightTicketMaxPrice) => {

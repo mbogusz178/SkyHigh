@@ -5,6 +5,7 @@ import mbogusz.spring.skyhigh.entity.dto.PassengerGetDTO;
 import mbogusz.spring.skyhigh.entity.dto.PassengerLoginDTO;
 import mbogusz.spring.skyhigh.entity.dto.PassengerPostDTO;
 import mbogusz.spring.skyhigh.entity.dto.PassengerRegistrationDTO;
+import mbogusz.spring.skyhigh.entity.validation.SimpleValidationMessage;
 import mbogusz.spring.skyhigh.mapper.EntityMapper;
 import mbogusz.spring.skyhigh.mapper.PassengerGetMapper;
 import mbogusz.spring.skyhigh.mapper.PassengerMapper;
@@ -56,25 +57,25 @@ public class PassengerEndpoint extends BaseEndpoint<Long, Passenger, PassengerPo
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody PassengerRegistrationDTO filledForm) {
+    public ResponseEntity<Object> register(@Valid @RequestBody PassengerRegistrationDTO filledForm) {
         try {
             Passenger registered = passengerRegistrationService.register(filledForm);
         } catch (EntityExistsException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new SimpleValidationMessage(e.getMessage()), HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>("Zarejestrowano pomyślnie", HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody PassengerLoginDTO filledForm) {
+    public ResponseEntity<Object> login(@Valid @RequestBody PassengerLoginDTO filledForm) {
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(filledForm.getEmail(), filledForm.getPassword()));
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>("Nieprawidłowe dane logowania", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new SimpleValidationMessage("Nieprawidłowe dane logowania"), HttpStatus.UNAUTHORIZED);
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("Zalogowano pomyślnie", HttpStatus.OK);
+        return new ResponseEntity<>(new SimpleValidationMessage("Zalogowano pomyślnie"), HttpStatus.OK);
     }
 
     @GetMapping("/currentUser")

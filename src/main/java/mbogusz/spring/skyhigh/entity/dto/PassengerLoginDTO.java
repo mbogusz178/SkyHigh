@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
@@ -14,7 +15,9 @@ import javax.validation.constraints.Email;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PassengerLoginDTO {
-    @Email
+    @Email(message = "Nieprawidłowy format adresu email")
+    @NotEmpty(message = "Wpisz adres email")
     private String email;
+    @NotEmpty(message = "Wpisz hasło")
     private String password;
 }

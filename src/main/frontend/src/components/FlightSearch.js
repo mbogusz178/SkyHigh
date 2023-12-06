@@ -97,16 +97,16 @@ class FlightSearchComponent extends Component {
         const isLoading = false
         return (
                 <div>
-                    <div className="jumbotron">
-                        <div className="container text-center">
+                    <div className="jumbotron mt-1">
+                        <div className="container text-center mt-3">
                             <h1 className="display-4">Wyszukaj loty</h1>
                             <p className="lead">Gdzie się wybierasz? Wypełnij pola i odbądź wymarzoną podróż!</p>
-                            <input id="sourceInput" className="form-control form-control-lg" placeholder="Miasto początkowe" type="text" value={this.props.source} onChange={this.onSourceChange} />
-                            <input id="destInput" className="form-control form-control-lg" placeholder="Miasto docelowe" type="text" value={this.props.destination} onChange={this.onDestChange} />
+                            <input id="sourceInput" className="form-control form-control-lg mt-3" placeholder="Miasto początkowe" type="text" value={this.props.source} onChange={this.onSourceChange} />
+                            <input id="destInput" className="form-control form-control-lg mt-3" placeholder="Miasto docelowe" type="text" value={this.props.destination} onChange={this.onDestChange} />
                         </div>
                     </div>
-                    <div className="container">
-                        <div className="row">
+                    <div className="container mt-3">
+                        <div className="row mt-3">
                             <div className="col-md">
                                 <h5>Dorośli:</h5>
                             </div>
@@ -117,7 +117,7 @@ class FlightSearchComponent extends Component {
                             </div>
                             <input id="childrenInput" className="form-control form-control-lg col-md" type="number" value={this.props.children} onChange={this.onChildrenChange} min="0" />
                         </div>
-                        <div className="row">
+                        <div className="row mt-3">
                             <div className="col-md">
                                 <h5>Cena lotu:</h5>
                             </div>
@@ -134,7 +134,7 @@ class FlightSearchComponent extends Component {
                                 <input id="maxFlightPriceInput" className="form-control form-control-lg col-md" type="number" value={this.props.maxFlightPrice} onChange={this.onMaxFlightPriceChange} min="0"/>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row mt-3">
                             <div className="col-md">
                                 <h5>Najwcześniejszy odlot:</h5>
                             </div>
@@ -142,11 +142,11 @@ class FlightSearchComponent extends Component {
                                 <h5>Najpóźniejszy odlot:</h5>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row mt-3">
                             <Form.Control type="date" value={null} onChange={this.onDepartureAfterChange}/>
                             <Form.Control type="date" value={null} onChange={this.onDepartureBeforeChange}/>
                         </div>
-                        <div className="row">
+                        <div className="row mt-3">
                             <div className="listHeading mt-4 col-md">
                                 <h1>Miasta:</h1>
                             </div>
@@ -154,7 +154,7 @@ class FlightSearchComponent extends Component {
                                 <h1>Miasta:</h1>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row mt-3">
                             <div className="col-md">
                                 <SearchCityList allCities={this.state.cities} enteredCity={this.state.source} setCity={this.setSource}/>
                             </div>
