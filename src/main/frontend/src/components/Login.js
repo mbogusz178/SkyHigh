@@ -12,7 +12,8 @@ class LoginComponent extends Component {
             email: '',
             password: '',
             errors: {},
-            isLoading: false
+            isLoading: false,
+            logoutFailedToast: false,
         }
     }
 
@@ -42,15 +43,15 @@ class LoginComponent extends Component {
                 <div className="jumbotron mt-1">
                     <div className="container text-center mt-3">
                         <h1 className="display-4">Zaloguj się</h1>
-                        <input id="emailInput" className={(this.state.errors.email !== null) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Adres email" type="text" value={this.props.email} onChange={this.onEmailChange} />
-                        {(this.state.errors.email !== null) ? (
+                        <input id="emailInput" className={('email' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Adres email" type="text" value={this.props.email} onChange={this.onEmailChange} />
+                        {('email' in this.state.errors) ? (
                             <small id="emailHelp" className="text-danger mt-1">{this.state.errors.email}</small>
                         ) : null}
-                        <input id="passwordInput" className={(this.state.errors.password !== null) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Hasło" type="password" value={this.props.password} onChange={this.onPasswordChange} />
-                        {(this.state.errors.password !== null) ? (
+                        <input id="passwordInput" className={('password' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Hasło" type="password" value={this.props.password} onChange={this.onPasswordChange} />
+                        {('password' in this.state.errors) ? (
                             <small id="passwordHelp" className="text-danger mt-1">{this.state.errors.password}</small>
                         ) : null}
-                        {(this.state.errors.message !== null) ? (
+                        {('message' in this.state.errors) ? (
                             <div>
                                 <small id="generalHelp" className="text-danger mt-1">{this.state.errors.message}</small>
                             </div>

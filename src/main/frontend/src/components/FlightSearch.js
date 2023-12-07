@@ -5,7 +5,8 @@ import {SearchCityList} from "./SearchCityList";
 import {Button, Form} from "react-bootstrap";
 import setInputValue from "../util/setInputValue";
 import {getFlights} from "../action/flightActions";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {Toast} from "bootstrap";
 
 class FlightSearchComponent extends Component {
 
@@ -20,7 +21,7 @@ class FlightSearchComponent extends Component {
             adults: 1,
             children: 0,
             minFlightPrice: 0,
-            maxFlightPrice: 1000
+            maxFlightPrice: 1000,
         }
     }
 
@@ -95,6 +96,7 @@ class FlightSearchComponent extends Component {
         const dispatch = this.props.dispatch
         const navigate = this.props.navigate
         const isLoading = false
+
         return (
                 <div>
                     <div className="jumbotron mt-1">
@@ -171,8 +173,9 @@ class FlightSearchComponent extends Component {
 const FlightSearch = (props) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const location = useLocation()
     return (
-        <FlightSearchComponent flights={props.flights} dispatch={dispatch} navigate={navigate}/>
+        <FlightSearchComponent flights={props.flights} dispatch={dispatch} navigate={navigate} location={location}/>
     )
 }
 

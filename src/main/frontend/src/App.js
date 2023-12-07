@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import {Login} from "./components/Login";
 import Logout from "./components/Logout";
 import Register from "./components/Register"
+import {Alerts} from "./components/Alerts";
 
 class App extends Component {
 
@@ -22,6 +23,7 @@ class App extends Component {
                         <Route exact path="/logout" element={<Logout/>}/>
                         <Route exact path="/register" element={<Register/>}/>
                     </Routes>
+                    <Alerts/>
                 </Router>
             </div>
         );

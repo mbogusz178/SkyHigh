@@ -55,6 +55,7 @@ class RegisterComponent extends Component {
         register(dispatch, this.state.email, this.state.password, this.state.matchingPassword, this.state.firstName, this.state.lastName, this.state.city, this.state.country).then(res => {
             navigate("/")
         }).catch(err => {
+            console.log(err)
             this.setState({errors: err})
         }).finally(() => {
             this.setState({isLoading: false})
@@ -67,35 +68,35 @@ class RegisterComponent extends Component {
                 <div className="jumbotron mt-1">
                     <div className="container text-center mt-3">
                         <h1 className="display-4">Zarejestruj się</h1>
-                        <input id="emailInput" className={(this.state.errors.email !== null) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Adres email" type="text" value={this.props.email} onChange={this.onEmailChange} />
-                        {(this.state.errors.email !== null) ? (
+                        <input id="emailInput" className={('email' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Adres email" type="text" value={this.props.email} onChange={this.onEmailChange} />
+                        {('email' in this.state.errors) ? (
                             <small id="emailHelp" className="text-danger mt-1">{this.state.errors.email}</small>
                         ) : null}
-                        <input id="passwordInput" className={(this.state.errors.password !== null) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Hasło" type="password" value={this.props.password} onChange={this.onPasswordChange} />
-                        {(this.state.errors.password !== null) ? (
+                        <input id="passwordInput" className={('password' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Hasło" type="password" value={this.props.password} onChange={this.onPasswordChange} />
+                        {('password' in this.state.errors) ? (
                             <small id="passwordHelp" className="text-danger mt-1">{this.state.errors.password}</small>
                         ) : null}
-                        <input id="matchingPasswordInput" className={(this.state.errors.matchingPassword !== null) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Powtórz hasło" type="password" value={this.props.matchingPassword} onChange={this.onMatchingPasswordChange} />
-                        {(this.state.errors.matchingPassword !== null) ? (
+                        <input id="matchingPasswordInput" className={('matchingPassword' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Powtórz hasło" type="password" value={this.props.matchingPassword} onChange={this.onMatchingPasswordChange} />
+                        {('matchingPassword' in this.state.errors) ? (
                             <small id="matchingPasswordHelp" className="text-danger mt-1">{this.state.errors.matchingPassword}</small>
                         ) : null}
-                        <input id="firstNameInput" className={(this.state.errors.firstName !== null) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Imię" type="text" value={this.props.firstName} onChange={this.onFirstNameChange} />
-                        {(this.state.errors.firstName !== null) ? (
+                        <input id="firstNameInput" className={('firstName' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Imię" type="text" value={this.props.firstName} onChange={this.onFirstNameChange} />
+                        {('firstName' in this.state.errors) ? (
                             <small id="firstNameHelp" className="text-danger mt-1">{this.state.errors.firstName}</small>
                         ) : null}
-                        <input id="lastNameInput" className={(this.state.errors.lastName !== null) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Nazwisko" type="text" value={this.props.lastName} onChange={this.onLastNameChange} />
-                        {(this.state.errors.lastName !== null) ? (
+                        <input id="lastNameInput" className={('lastName' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Nazwisko" type="text" value={this.props.lastName} onChange={this.onLastNameChange} />
+                        {('lastName' in this.state.errors) ? (
                             <small id="lastNameHelp" className="text-danger mt-1">{this.state.errors.lastName}</small>
                         ) : null}
-                        <input id="cityInput" className={(this.state.errors.city !== null) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Miasto" type="text" value={this.props.city} onChange={this.onCityChange} />
-                        {(this.state.errors.city !== null) ? (
+                        <input id="cityInput" className={('city' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Miasto" type="text" value={this.props.city} onChange={this.onCityChange} />
+                        {('city' in this.state.errors) ? (
                             <small id="cityHelp" className="text-danger mt-1">{this.state.errors.city}</small>
                         ) : null}
-                        <input id="countryInput" className={(this.state.errors.country !== null) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Country" type="text" value={this.props.country} onChange={this.onCountryChange} />
-                        {(this.state.errors.country !== null) ? (
+                        <input id="countryInput" className={('country' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Country" type="text" value={this.props.country} onChange={this.onCountryChange} />
+                        {('country' in this.state.errors) ? (
                             <small id="countryHelp" className="text-danger mt-1">{this.state.errors.country}</small>
                         ) : null}
-                        {(this.state.errors.message !== null) ? (
+                        {('message' in this.state.errors) ? (
                             <div>
                                 <small id="generalHelp" className="text-danger mt-1">{this.state.errors.message}</small>
                             </div>

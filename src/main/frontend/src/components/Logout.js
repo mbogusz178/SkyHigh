@@ -1,20 +1,14 @@
 import {connect, useDispatch} from "react-redux";
-import {Navigate, useNavigate} from "react-router-dom"
 import {logout} from "../action/authActions";
-import {useEffect} from "react";
+import {Navigate} from "react-router-dom";
 
 const Logout = (props) => {
     const dispatch = useDispatch()
-    const navigate = useNavigate()
-    useEffect(() => {
-        setTimeout(() => navigate("/login"), 2000)
-    }, []);
 
     let success = true
     if(props.currentUser === null) {
         success = false
     } else {
-        let result = ""
         logout(dispatch).then(res => {
             success = true
         }).catch(err => {
@@ -23,10 +17,10 @@ const Logout = (props) => {
     }
 
     if(success) {
-        return <h5>Wylogowano pomyślnie</h5>
+        return <Navigate to='/' state={{alertType: 'alert-success', alertMessage: 'Wylogowano pomyślnie'}}/>
     }
 
-    return <h5>Nie jesteś zalogowany</h5>
+    return <Navigate to="/login" state={{alertType: 'alert-info', alertMessage: 'Nie jesteś zalogowany'}}/>
 }
 
 const mapStateToProps = (state) => {

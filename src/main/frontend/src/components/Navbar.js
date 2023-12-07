@@ -35,18 +35,22 @@ class NavbarComponent extends Component {
                     </button>
                 </div>
                 <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
-                    <ul className="navbar-nav ms-auto">
-                        <li className="nav-item">
-                            {(this.props.currentUser !== null) ? (
-                                <div>
-                                    <Link className="nav-link" to="/profile">{this.props.currentUser.firstName } {this.props.currentUser.lastName}</Link>
-                                    <Link className="nav-link" to="/logout">Wyloguj się</Link>
-                                </div>
-                            ) : (
+                    {(this.props.currentUser !== null) ? (
+                        <ul className="navbar-nav ms-auto">
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/profile">{this.props.currentUser.firstName } {this.props.currentUser.lastName}</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/logout">Wyloguj się</Link>
+                            </li>
+                        </ul>
+                    ) : (
+                        <ul className="navbar-nav ms-auto">
+                            <li className="nav-item">
                                 <Link className="nav-link" to="/login">Zaloguj się</Link>
-                            )}
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    )}
                 </div>
             </nav>
         )

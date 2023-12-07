@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 @PasswordMatches
 public class PassengerRegistrationDTO {
     @Email(message = "Nieprawidłowy format adresu email")
+    @NotEmpty(message = "Wpisz adres email")
     private String email;
     @NotNull
     @NotEmpty(message = "Wpisz hasło")
