@@ -87,7 +87,7 @@ class FlightSearchComponent extends Component {
         const departureAfterString = this.state.departureAfter.toISOString().split('.')[0]+"Z"
         const departureBeforeString = this.state.departureBefore.toISOString().split('.')[0]+"Z"
         getFlights(dispatch, this.state.source, this.state.destination, departureAfterString, departureBeforeString, null, null, this.state.adults, this.state.children, this.state.minFlightPrice, this.state.maxFlightPrice).then(() => {
-            navigate("/flightSearch")
+            navigate("/flightSearch", {state: {adults: this.state.adults, children: this.state.children}})
         })
     }
 

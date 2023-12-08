@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="07_1925_populate_table_seat_class" author="mbogusz178">
+        <insert tableName="seat_class">
+            <column name="id" value="0"/>
+            <column name="code" value="Y"/>
+            <column name="name" value="ekonomiczna"/>
+        </insert>
+        <insert tableName="seat_class">
+            <column name="id" value="1"/>
+            <column name="code" value="W"/>
+            <column name="name" value="ekonomiczna premium"/>
+        </insert>
+        <insert tableName="seat_class">
+            <column name="id" value="2"/>
+            <column name="code" value="J"/>
+            <column name="name" value="biznesowa"/>
+        </insert>
+        <insert tableName="seat_class">
+            <column name="id" value="3"/>
+            <column name="code" value="F"/>
+            <column name="name" value="pierwsza"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

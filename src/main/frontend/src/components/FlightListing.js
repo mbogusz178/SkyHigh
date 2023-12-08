@@ -1,3 +1,6 @@
+import {Button} from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
+
 function getPolishMonth(monthNumber) {
     switch (monthNumber) {
         case 1: return "stycznia"
@@ -17,15 +20,21 @@ function getPolishMonth(monthNumber) {
 }
 
 export const FlightListing = (props) => {
+    const navigate = useNavigate()
     const flight = props.flight
     const departureDate = new Date(flight.departureDate)
     return (
         <tr className="table-primary">
             <td>{flight.source.city} ({flight.source.id})</td>
             <td>{flight.destination.city} ({flight.destination.id})</td>
-            <td>{departureDate.getDay()} {getPolishMonth(departureDate.getMonth())} {departureDate.getFullYear()}</td>
-            <td>{departureDate.getHours()}:{departureDate.getMinutes()}</td>
+            <td>{departureDate.getDate()} {getPolishMonth(departureDate.getMonth())} {departureDate.getFullYear()}</td>
+            <td>{departureDate.getHours()}:{departureDate.getMinutes().toLocaleString('pl-PL', {
+                minimumIntegerDigits: 2,
+                maximumFractionDigits: 0,
+                useGrouping: false
+            })}</td>
             <td>{flight.totalTicketPrice}</td>
+            <td><Button variant="info" onClick={() => navigate("/bookFlight", {state: {flight: flight, adults: props.adults, children: props.children}})}>Rezerwuj lot</Button></td>
         </tr>
     )
 }

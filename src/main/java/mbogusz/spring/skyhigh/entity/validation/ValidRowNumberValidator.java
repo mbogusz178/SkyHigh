@@ -11,7 +11,7 @@ public class ValidRowNumberValidator implements ConstraintValidator<ValidRowNumb
     public boolean isValid(Seat value, ConstraintValidatorContext context) {
         int rowNumber = value.getRowNumber();
 
-        int maxRows = value.getPlane().getSeatConfiguration().getNumRows();
+        int maxRows = value.getFlight().getPlane().getSeatConfiguration().getNumRows();
 
         return rowNumber < maxRows;
     }

@@ -1,26 +1,26 @@
 package mbogusz.spring.skyhigh.entity.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mbogusz.spring.skyhigh.util.Identifiable;
 
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TicketDTO implements Identifiable<Long> {
+public class FlightBookingDataDTO implements Identifiable<Long> {
     private Long id;
-    private Long passenger;
-    private Long seat;
-    private Long flightClass;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
-    private Timestamp dateBooked;
-    private String status;
+    private String planeModel;
+    @JsonProperty("seatConfig")
+    private SeatConfigurationBookingDataDTO seatConfig;
+    @JsonProperty("seats")
+    private List<SeatBookingDataDTO> seats = new ArrayList<>();
 }

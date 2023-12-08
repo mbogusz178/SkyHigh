@@ -30,6 +30,10 @@ public class SeatConfiguration implements Identifiable<Long> {
     @Column(name = "row_config", nullable = false)
     private String rowConfig;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST}, targetEntity = SeatClassRange.class)
+    @JoinTable(name = "seat_class_ranges_seat_config", joinColumns = { @JoinColumn(name = "seat_config_id") }, inverseJoinColumns = { @JoinColumn(name = "seat_class_range_id") })
+    private Set<SeatClassRange> seatClassRanges = new HashSet<>();
+
     @OneToMany(mappedBy = "seatConfiguration", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Plane> planesWithSeatConfig = new HashSet<>();
 

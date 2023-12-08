@@ -18,11 +18,10 @@ import javax.validation.constraints.Pattern;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SeatDTO implements Identifiable<Long> {
     private Long id;
-    private String plane;
+    private Long flight;
     @ValidDTORowNumber
     private int rowNumber;
     @Pattern(regexp = "^[A-Z]$")
     private char seatLetter;
-    private Long flightClass;
     private String seatStatus;
 }

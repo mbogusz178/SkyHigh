@@ -19,6 +19,7 @@ public class FlightDTO implements Identifiable<Long> {
     private Long id;
     private String source;
     private String destination;
+    private String plane;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Timestamp departureDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")

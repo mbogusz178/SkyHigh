@@ -1,9 +1,11 @@
 package mbogusz.spring.skyhigh.endpoint;
 
 import mbogusz.spring.skyhigh.entity.Flight;
+import mbogusz.spring.skyhigh.entity.dto.FlightBookingDataDTO;
 import mbogusz.spring.skyhigh.entity.dto.FlightDTO;
 import mbogusz.spring.skyhigh.entity.dto.FlightSearchResponseDTO;
 import mbogusz.spring.skyhigh.mapper.EntityMapper;
+import mbogusz.spring.skyhigh.mapper.FlightBookingDataMapper;
 import mbogusz.spring.skyhigh.mapper.FlightMapper;
 import mbogusz.spring.skyhigh.mapper.FlightSearchResponseMapper;
 import mbogusz.spring.skyhigh.mapper.context.PassengerComposition;
@@ -14,11 +16,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.NotFoundException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +31,7 @@ public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
     private final FlightRepository repository;
     private final FlightMapper mapper;
     private final FlightSearchResponseMapper searchResponseMapper;
+    private final FlightBookingDataMapper flightBookingDataMapper;
     private final TotalFlightPriceFilterService priceFilterService;
 
     @Override
@@ -44,10 +45,11 @@ public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
     }
 
     @Autowired
-    public FlightEndpoint(FlightRepository repository, FlightMapper mapper, FlightSearchResponseMapper searchResponseMapper, TotalFlightPriceFilterService priceFilterService) {
+    public FlightEndpoint(FlightRepository repository, FlightMapper mapper, FlightSearchResponseMapper searchResponseMapper, FlightBookingDataMapper flightBookingDataMapper, TotalFlightPriceFilterService priceFilterService) {
         this.repository = repository;
         this.mapper = mapper;
         this.searchResponseMapper = searchResponseMapper;
+        this.flightBookingDataMapper = flightBookingDataMapper;
         this.priceFilterService = priceFilterService;
     }
 
@@ -70,5 +72,10 @@ public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
         List<Flight> finalFlights = priceFilterService.filterTotalFlightPrice(flights, adultCount, childCount, flightTicketMinPrice, flightTicketMaxPrice);
         List<FlightSearchResponseDTO> flightDTOs = finalFlights.stream().map(flight -> searchResponseMapper.toDto(flight, new PassengerComposition(adultCount, childCount))).collect(Collectors.toList());
         return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/bookingData")
+    public ResponseEntity<FlightBookingDataDTO> bookingData(@PathVariable Long id) {
+        return new ResponseEntity<>(flightBookingDataMapper.toDto(repository.findById(id).orElseThrow(NotFoundException::new)), HttpStatus.OK);
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="08_1233_link_seat_config" author="mbogusz178">
+        <insert tableName="seat_class_ranges_seat_config">
+            <column name="seat_config_id" value="1"/>
+            <column name="seat_class_range_id" value="0"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -8,6 +8,7 @@ import {Login} from "./components/Login";
 import Logout from "./components/Logout";
 import Register from "./components/Register"
 import {Alerts} from "./components/Alerts";
+import BookFlight from "./components/BookFlight";
 
 class App extends Component {
 
@@ -22,6 +23,7 @@ class App extends Component {
                         <Route exact path="/login" element={<Login/>}/>
                         <Route exact path="/logout" element={<Logout/>}/>
                         <Route exact path="/register" element={<Register/>}/>
+                        <Route exact path="/bookFlight" element={<BookFlight/>}/>
                     </Routes>
                     <Alerts/>
                 </Router>

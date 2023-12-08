@@ -28,6 +28,10 @@ public class Ticket implements Identifiable<Long> {
     private Passenger passenger;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "flight_class", nullable = false)
+    private FlightClass flightClass;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seat", nullable = false)
     private Seat seat;
 

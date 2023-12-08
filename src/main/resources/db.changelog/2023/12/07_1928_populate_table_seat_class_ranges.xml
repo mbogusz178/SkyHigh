@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="07_1928_populate_table_seat_class_ranges" author="mbogusz178">
+        <insert tableName="seat_class_ranges">
+            <column name="id" value="0"/>
+            <column name="from_row" value="0"/>
+            <column name="to_row" value="999"/>
+            <column name="seat_class" value="0"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

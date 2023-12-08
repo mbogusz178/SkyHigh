@@ -31,6 +31,10 @@ public class Flight implements Identifiable<Long> {
     @JoinColumn(name = "destination", nullable = false)
     private Airport destination;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "plane", nullable = false)
+    private Plane plane;
+
     @Column(name = "departure_date", nullable = false)
     private Timestamp departureDate;
 

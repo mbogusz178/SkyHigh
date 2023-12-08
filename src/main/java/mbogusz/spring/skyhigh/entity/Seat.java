@@ -24,10 +24,6 @@ public class Seat implements Identifiable<Long> {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "plane", nullable = false)
-    private Plane plane;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight", nullable = false)
     private Flight flight;
 
@@ -38,10 +34,6 @@ public class Seat implements Identifiable<Long> {
     @Column(name = "seat_letter", nullable = false)
     @Pattern(regexp = "^[A-Z]$")
     private char seatLetter;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "flight_class", nullable = false)
-    private FlightClass flightClass;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)

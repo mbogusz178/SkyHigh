@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="07_1620_populate_table_seat_config" author="mbogusz178">
+        <insert tableName="seat_configuration">
+            <column name="id" value="1"/>
+            <column name="num_rows" value="2"/>
+            <column name="row_config" value="3-3"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,9 +1,11 @@
 package mbogusz.spring.skyhigh.mapper;
 
+import mbogusz.spring.skyhigh.entity.FlightClass;
 import mbogusz.spring.skyhigh.entity.Seat;
 import mbogusz.spring.skyhigh.entity.Ticket;
 import mbogusz.spring.skyhigh.entity.auth.Passenger;
 import mbogusz.spring.skyhigh.entity.dto.TicketDTO;
+import mbogusz.spring.skyhigh.repository.FlightClassRepository;
 import mbogusz.spring.skyhigh.repository.PassengerRepository;
 import mbogusz.spring.skyhigh.repository.SeatRepository;
 import mbogusz.spring.skyhigh.repository.TicketRepository;
@@ -14,12 +16,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import javax.ws.rs.NotFoundException;
 import java.util.function.Supplier;
 
-@Mapper(componentModel = "spring", uses = {TicketRepository.class, PassengerRepository.class, SeatRepository.class})
+@Mapper(componentModel = "spring", uses = {TicketRepository.class, PassengerRepository.class, SeatRepository.class, FlightClassRepository.class})
 public abstract class TicketMapper extends EntityMapper<Long, Ticket, TicketDTO> {
 
     private TicketRepository repository;
     private PassengerRepository passengerRepository;
     private SeatRepository seatRepository;
+    private FlightClassRepository flightClassRepository;
 
     @Override
     protected JpaRepository<Ticket, Long> getRepository() {
@@ -46,16 +49,23 @@ public abstract class TicketMapper extends EntityMapper<Long, Ticket, TicketDTO>
         this.seatRepository = seatRepository;
     }
 
+    @Autowired
+    public void setFlightClassRepository(FlightClassRepository flightClassRepository) {
+        this.flightClassRepository = flightClassRepository;
+    }
+
     @Mappings({
             @Mapping(source = "passenger", target = "passenger", qualifiedByName = "passengerToId"),
-            @Mapping(source = "seat", target = "seat", qualifiedByName = "seatToId")
+            @Mapping(source = "seat", target = "seat", qualifiedByName = "seatToId"),
+            @Mapping(source = "flightClass", target = "flightClass", qualifiedByName = "flightClassToId")
     })
     @Override
     public abstract TicketDTO toDto(Ticket entity);
 
     @Mappings({
             @Mapping(source = "passenger", target = "passenger", qualifiedByName = "idToPassenger"),
-            @Mapping(source = "seat", target = "seat", qualifiedByName = "idToSeat")
+            @Mapping(source = "seat", target = "seat", qualifiedByName = "idToSeat"),
+            @Mapping(source = "flightClass", target = "flightClass", qualifiedByName = "idToFlightClass")
     })
     @Override
     public abstract Ticket map(TicketDTO ticketDTO, @MappingTarget Ticket entity);
@@ -78,5 +88,15 @@ public abstract class TicketMapper extends EntityMapper<Long, Ticket, TicketDTO>
     @Named("idToSeat")
     protected Seat idToSeat(Long id) {
         return seatRepository.findById(id).orElseThrow(NotFoundException::new);
+    }
+
+    @Named("flightClassToId")
+    protected Long flightClassToId(FlightClass flightClass) {
+        return flightClass.getId();
+    }
+
+    @Named("idToFlightClass")
+    protected FlightClass idToFlightClass(Long id) {
+        return flightClassRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 }
