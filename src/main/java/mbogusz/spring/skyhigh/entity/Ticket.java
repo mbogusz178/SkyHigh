@@ -27,11 +27,21 @@ public class Ticket implements Identifiable<Long> {
     @JoinColumn(name = "passenger", nullable = false)
     private Passenger passenger;
 
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "age_group", nullable = false)
+    private AgeGroup ageGroup;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_class", nullable = false)
     private FlightClass flightClass;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "seat", nullable = false)
     private Seat seat;
 
@@ -41,4 +51,7 @@ public class Ticket implements Identifiable<Long> {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private TicketStatus status;
+
+    @Column(name = "notified", nullable = false)
+    private Boolean notified;
 }

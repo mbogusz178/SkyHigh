@@ -20,8 +20,8 @@ class FlightSearchComponent extends Component {
             departureBefore: null,
             adults: 1,
             children: 0,
-            minFlightPrice: 0,
-            maxFlightPrice: 1000,
+            minFlightPrice: null,
+            maxFlightPrice: null,
         }
     }
 
@@ -99,7 +99,7 @@ class FlightSearchComponent extends Component {
 
         return (
                 <div>
-                    <div className="jumbotron mt-1">
+                    <div className="jumbotron mt-3">
                         <div className="container text-center mt-3">
                             <h1 className="display-4">Wyszukaj loty</h1>
                             <p className="lead">Gdzie się wybierasz? Wypełnij pola i odbądź wymarzoną podróż!</p>
@@ -164,7 +164,7 @@ class FlightSearchComponent extends Component {
                                 <SearchCityList allCities={this.state.cities} enteredCity={this.state.destination} setCity={this.setDestination}/>
                             </div>
                         </div>
-                        <Button variant="primary" disabled={isLoading} onClick={!isLoading ? (() => this.requestSearchFlights(navigate, dispatch)) : null}>Szukaj</Button>
+                        <Button className="mx-auto d-block mt-3" variant="primary" disabled={isLoading} onClick={!isLoading ? (() => this.requestSearchFlights(navigate, dispatch)) : null}>Szukaj</Button>
                     </div>
                 </div>
     )}

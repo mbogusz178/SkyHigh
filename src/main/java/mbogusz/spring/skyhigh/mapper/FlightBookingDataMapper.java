@@ -59,11 +59,14 @@ public abstract class FlightBookingDataMapper extends EntityMapper<Long, Flight,
         return seats.stream().map(seat -> {
             Set<SeatClassRange> seatClassRanges = seat.getFlight().getPlane().getSeatConfiguration().getSeatClassRanges();
             String seatClass = "Y";
+            String seatClassName = "ekonomiczna";
             for (SeatClassRange seatClassRange : seatClassRanges) {
-                if (seat.getRowNumber() >= seatClassRange.getFromRow() && seat.getRowNumber() <= seatClassRange.getToRow())
+                if (seat.getRowNumber() >= seatClassRange.getFromRow() && seat.getRowNumber() <= seatClassRange.getToRow()) {
                     seatClass = seatClassRange.getSeatClass().getCode();
+                    seatClassName = seatClassRange.getSeatClass().getName();
+                }
             }
-            return new SeatBookingDataDTO(seat.getRowNumber(), seat.getSeatLetter(), seatClass, seat.getStatus().toString());
+            return new SeatBookingDataDTO(seat.getRowNumber(), seat.getSeatLetter(), seatClass, seatClassName, seat.getStatus().toString());
         }).sorted(Comparator.comparing(SeatBookingDataDTO::getRowNumber).thenComparing(SeatBookingDataDTO::getSeatLetter)).collect(Collectors.toList());
     }
 }

@@ -7,14 +7,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidRowNumberValidator.class)
-public @interface ValidRowNumber {
-
-    String message() default "Seat won't fit in the plane";
-
+@Constraint(validatedBy = PhoneNumberValidator.class)
+public @interface PhoneNumber {
+    String message() default "Nieprawidłowy format numeru telefonu";
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }

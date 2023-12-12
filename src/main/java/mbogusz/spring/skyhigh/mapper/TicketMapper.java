@@ -92,11 +92,13 @@ public abstract class TicketMapper extends EntityMapper<Long, Ticket, TicketDTO>
 
     @Named("flightClassToId")
     protected Long flightClassToId(FlightClass flightClass) {
+        if(flightClass == null) return null;
         return flightClass.getId();
     }
 
     @Named("idToFlightClass")
     protected FlightClass idToFlightClass(Long id) {
+        if(id == null) return null;
         return flightClassRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 }

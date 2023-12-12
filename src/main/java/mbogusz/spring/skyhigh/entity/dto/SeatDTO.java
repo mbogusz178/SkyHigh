@@ -22,6 +22,6 @@ public class SeatDTO implements Identifiable<Long> {
     @ValidDTORowNumber
     private int rowNumber;
     @Pattern(regexp = "^[A-Z]$")
-    private char seatLetter;
+    private String seatLetter;
     private String seatStatus;
 }

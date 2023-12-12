@@ -9,6 +9,7 @@ import Logout from "./components/Logout";
 import Register from "./components/Register"
 import {Alerts} from "./components/Alerts";
 import BookFlight from "./components/BookFlight";
+import BookingForm from "./components/BookingForm";
 
 class App extends Component {
 
@@ -24,6 +25,7 @@ class App extends Component {
                         <Route exact path="/logout" element={<Logout/>}/>
                         <Route exact path="/register" element={<Register/>}/>
                         <Route exact path="/bookFlight" element={<BookFlight/>}/>
+                        <Route exact path="/bookingForm" element={<BookingForm/>}/>
                     </Routes>
                     <Alerts/>
                 </Router>

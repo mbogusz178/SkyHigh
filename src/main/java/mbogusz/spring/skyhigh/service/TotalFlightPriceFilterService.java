@@ -18,7 +18,7 @@ public class TotalFlightPriceFilterService {
             double totalPrice = calculateFlightPrice(flight, adultCount, childCount);
             boolean eligible = true;
             if(minFlightPrice != null) eligible = totalPrice >= minFlightPrice;
-            if(maxFlightPrice != null) eligible = eligible && totalPrice <= maxFlightPrice;
+            if(maxFlightPrice != null) eligible = eligible && (totalPrice <= maxFlightPrice);
             return eligible;
         }).collect(Collectors.toList());
     }

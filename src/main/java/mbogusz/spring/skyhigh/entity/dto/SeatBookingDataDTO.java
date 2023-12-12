@@ -13,7 +13,8 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SeatBookingDataDTO {
     private int rowNumber;
-    private char seatLetter;
+    private String seatLetter;
     private String flightClass;
+    private String flightClassName;
     private String status;
 }

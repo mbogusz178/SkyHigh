@@ -1,8 +1,45 @@
 import axios from 'axios'
 import {connect} from "react-redux";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {Dropdown, DropdownItem, DropdownMenu} from "react-bootstrap";
+import {Button, Card, Dropdown} from "react-bootstrap";
+
+const BookingPassengerData = (props) => {
+    const ageGroup = props.ageGroup === 'adult' ? 'Dorosły' : 'Dziecko'
+    const ageGroupIndex = props.ageGroupIndex + 1
+    const theSeat = props.flightData.seats.find(seat => {
+        return (seat.rowNumber === props.rowNumber) && (seat.seatLetter === props.seatLetter)
+    })
+
+    return (
+        <Card className="col col-auto" text={"white"} bg={"primary"}>
+            <Card.Header>{ageGroup} {ageGroupIndex}</Card.Header>
+            <Card.Body>
+                <Card.Text>
+                    Numer rzędu: {theSeat.rowNumber} <br/>
+                    Litera siedzenia: {theSeat.seatLetter} <br/>
+                    Klasa lotu: {theSeat.flightClassName}
+                </Card.Text>
+            </Card.Body>
+        </Card>
+    )
+}
+
+export const BookingSummary = (props) => {
+    return (
+        <div className="row justify-content-center mt-3">
+            {Object.keys(props.bookedSeats).map((key, index) => {
+                const ageGroup = key.replace(/\d+$/, "")
+                const ageGroupIndex = key.match(/\d+$/) ? Number(key.match(/\d+$/)[0]) : null
+                const rowNumber = props.bookedSeats[key].match(/^(\d+)/) ? Number(props.bookedSeats[key].match(/^(\d+)/)[0]) : null
+                const seatLetter = props.bookedSeats[key].replace(/^(\d+)/, "")
+                return (
+                    <BookingPassengerData flightData={props.flightData} ageGroup={ageGroup} ageGroupIndex={ageGroupIndex} rowNumber={rowNumber} seatLetter={seatLetter}/>
+                )
+            })}
+        </div>
+    )
+}
 
 const SeatText = React.forwardRef(({children, onClick}, ref) => (
     <span ref={ref} onClick={(e) => {
@@ -36,14 +73,8 @@ const SeatRow = (props) => {
         }
 
         const adultArray = [...Array(props.adults).keys()]
-        console.log(props.adults)
-        console.log(adultArray)
         const childArray = [...Array(props.children).keys()]
-        console.log(props.children)
-        console.log(childArray)
         const columnGroupArray = [...Array(props.columnGroup).keys()]
-        console.log(props.columnGroup)
-        console.log(columnGroupArray)
 
         return (
             <Dropdown className={"col col-auto " + ((props.columnIndex !== 0 && columnIndexInGroup === 0) ? "offset-1 " : "") + "flight-class-" + theSeat.flightClass.toLowerCase() + seatStatus}>
@@ -53,13 +84,11 @@ const SeatRow = (props) => {
                 {(theSeat.status !== 'BOOKED' && theSeat.status !== 'UNAVAILABLE') ? (
                     <Dropdown.Menu>
                         {adultArray.map((e, i) => {
-                            console.log(i)
                             return (
                                 <Dropdown.Item key={i} onClick={() => selectForAdult(i, theSeat.rowNumber, theSeat.seatLetter)}>Dorosły {(i + 1).toString()}</Dropdown.Item>
                             )
                         })}
                         {childArray.map((e, i) => {
-                            console.log(props.adults + i)
                             return (
                                 <Dropdown.Item key={props.adults + i} onClick={() => selectForChild(i, theSeat.rowNumber, theSeat.seatLetter)}>Dziecko {(i + 1).toString()}</Dropdown.Item>
                             )
@@ -76,6 +105,11 @@ const BookFlight = (props) => {
     const [flightData, setFlightData] = useState(null)
     const [bookedSeats, setBookedSeats] = useState({})
     const flight = location.state.flight
+    const navigate = useNavigate()
+
+    function redirectToForm(bookedSeats) {
+        navigate("/bookingForm", { state: {bookedSeats, flightId: flight.id, flightData} })
+    }
 
     useEffect(() => {
         axios.get("http://localhost/api/flights/" + flight.id + "/bookingData").then(res => setFlightData(res.data))
@@ -113,13 +147,14 @@ const BookFlight = (props) => {
         <div>
             {((flightData !== null) && (rowConfigArray !== null)) ? (
                 <div>
-                    <p className="text-center">Rezerwacja lotu z {flight.source.city} do {flight.destination.city} (samolot {flightData.planeModel})</p>
-                    <div className="container text-center mt-3">
+                    <h5 className="text-center">Rezerwacja lotu z {flight.source.city} do {flight.destination.city} (samolot {flightData.planeModel})</h5>
+                    <p className="text-center">Kliknij w miejsce, aby przydzelić do niego jednego z pasażerów. Wolne miejsca oznaczone są kolorem niebieskim, niedostępne - szarym, zaś zajęte - paskami.</p>
+                    <div className="container mt-3">
                         {[...Array(numRows).keys()].map((row, i) => {
                             const sortedFiltered = seatList.filter((seat) => seat.rowNumber === row + 1).sort((a, b) => a.seatLetter.localeCompare(b.seatLetter))
                             let columnCount = 0
                             return (
-                                <div className="row mt-3 justify-content-center">
+                                <div className="text-center row mt-3 justify-content-center">
                                     {rowConfigArray.map((columnGroup, i) => {
                                         const columnCount = rowConfigArray.filter((colGroup, index) => index < i).reduce((partial, a) => partial + a, 0)
                                         return <SeatRow columnGroup={columnGroup} numColumns={numColumns} sortedFiltered={sortedFiltered} columnIndex={columnCount} adults={adults} children={children} setBookedSeats={setBookedSeats} bookedSeats={bookedSeats}/>
@@ -127,6 +162,8 @@ const BookFlight = (props) => {
                                 </div>
                             )
                         })}
+                        <BookingSummary flightData={flightData} bookedSeats={bookedSeats}/>
+                        <Button className="mx-auto d-block mt-3" variant="primary" disabled={Object.keys(bookedSeats).length < (adults + children)} onClick={(Object.keys(bookedSeats).length >= (adults + children)) ? () => redirectToForm(bookedSeats) : null}>Dalej</Button>
                     </div>
                 </div>
             ) : null}

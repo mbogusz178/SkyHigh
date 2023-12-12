@@ -48,3 +48,13 @@ export const register = (dispatch, email, password, matchingPassword, firstName,
         reject(err.response.data)
     }))
 }
+
+export const bookFlights = (body) => {
+
+    return new Promise((resolve, reject) => axios.post("http://localhost/api/tickets/bookTickets", body).then(res => {
+        resolve(res.data)
+    }).catch(err => {
+        console.log("Error code " - err.response.status)
+        reject(err.response)
+    }))
+}

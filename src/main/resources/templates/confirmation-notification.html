@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+    <head>
+        <title th:remove="all">Template for HTML email</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+    <body>
+        <p>Witaj, <span th:text="|${ticket.passenger.firstName} ${ticket.passenger.lastName}|">Gall Anonim</span>,</p>
+        <p>Zbliża się odlot z lotniska <span th:text="|${ticket.seat.flight.source.airportName} (${ticket.seat.flight.source.city})|">nieznanego</span>
+            na lotnisko <span th:text="|${ticket.seat.flight.destination.airportName} (${ticket.seat.flight.destination.city})|">nieznane</span>.
+            Jeśli jesteś gotowy na odlot, potwierdź rezerwację, klikając w poniższy link:</p>
+        <p>TODO: link do potwierdzenia</p>
+        <p>Życzymy udanej podróży!</p>
+        <p>SkyHigh</p>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+    <head>
+        <title th:remove="all">Template for HTML email</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+    <body>
+        <p>Witaj, <span th:text="|${recipient.firstName} ${recipient.lastName}|">Gall Anonim</span>,</p>
+        <p>Potwierdzamy rezerwację lotu z lotniska <span th:text="|${source.airportName} (${source.city})|">nieznanego</span>
+        na lotnisko <span th:text="|${destination.airportName} (${destination.city})|">nieznane</span>.
+        30 minut przed odlotem otrzymasz powiadomienie mailowe z linkiem do potwierdzenia rezerwacji - potwierdzenie jest konieczne w celu dopuszczenia na pokład samolotu.</p>
+        <p>Życzymy udanej podróży!</p>
+        <p>SkyHigh</p>
+    </body>
+</html>

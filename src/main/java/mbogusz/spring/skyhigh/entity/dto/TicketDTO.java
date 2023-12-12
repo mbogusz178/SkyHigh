@@ -18,6 +18,9 @@ import java.sql.Timestamp;
 public class TicketDTO implements Identifiable<Long> {
     private Long id;
     private Long passenger;
+    private String firstName;
+    private String lastName;
+    private String ageGroup;
     private Long seat;
     private Long flightClass;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")

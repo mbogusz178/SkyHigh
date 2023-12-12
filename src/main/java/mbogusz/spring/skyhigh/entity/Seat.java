@@ -16,6 +16,7 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "seat")
+@ValidRowNumber
 public class Seat implements Identifiable<Long> {
 
     @Id
@@ -27,13 +28,12 @@ public class Seat implements Identifiable<Long> {
     @JoinColumn(name = "flight", nullable = false)
     private Flight flight;
 
-    @ValidRowNumber
     @Column(name = "row_number", nullable = false)
     private int rowNumber;
 
     @Column(name = "seat_letter", nullable = false)
     @Pattern(regexp = "^[A-Z]$")
-    private char seatLetter;
+    private String seatLetter;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
