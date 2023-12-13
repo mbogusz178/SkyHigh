@@ -5,16 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mbogusz.spring.skyhigh.util.Identifiable;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AirportDTO implements Identifiable<String> {
-    private String id;
-    private String airportName;
-    private String city;
-    private String country;
+public class FlightOtherPassengerDTO {
+    private String ageGroup;
+    private String firstName;
+    private String lastName;
+    private Integer rowNumber;
+    private String seatLetter;
 }

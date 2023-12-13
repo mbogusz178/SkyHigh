@@ -28,4 +28,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
                                         @Param("arrivalAfter") Timestamp arrivalAfter,
                                         @Param("arrivalBefore") Timestamp arrivalBefore,
                                         Pageable pageable);
+
+    @Query(nativeQuery = true, value = "SELECT DISTINCT f.id FROM flight f JOIN seat s JOIN ticket t JOIN passenger p ON t.passenger = p.user_id ON s.id = t.seat ON f.id = s.flight WHERE p.user_id = :userId")
+    List<Long> getFlightIdsOfUser(Long userId);
 }

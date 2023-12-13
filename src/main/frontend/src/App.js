@@ -26,6 +26,7 @@ class App extends Component {
                         <Route exact path="/register" element={<Register/>}/>
                         <Route exact path="/bookFlight" element={<BookFlight/>}/>
                         <Route exact path="/bookingForm" element={<BookingForm/>}/>
+                        <Route exact path="/tickets" element={<UserBookedFlightsList/>}/>
                     </Routes>
                     <Alerts/>
                 </Router>
