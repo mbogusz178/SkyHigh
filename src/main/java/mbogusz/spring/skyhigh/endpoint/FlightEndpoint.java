@@ -27,6 +27,7 @@ import javax.ws.rs.NotFoundException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestController
@@ -136,6 +137,17 @@ public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
 
     @PostMapping(value = "/confirmFlight")
     public ResponseEntity<String> confirmFlight(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody SimpleDTO<Long> flightId) {
-        return updateTicketStatus(userDetails, flightId.getValue(), TicketStatus.CONFIRMED, "Pomyślnie potwierdzono lot", "Potwierdzenie lotu nie powiodło się. Spróbuj ponownie za jakiś czas");
+        final long MINUTE_MILLIS = 60000;
+
+        try {
+            Flight flight = repository.findById(flightId.getValue()).orElseThrow();
+            Timestamp departureDate = flight.getDepartureDate();
+            if(new Date(departureDate.getTime() - (30 * MINUTE_MILLIS)).after(new Date())) { // if more than 30 minutes before flight
+                return new ResponseEntity<>("Można potwierdzić lot tylko 30 minut przed odlotem", HttpStatus.BAD_REQUEST);
+            }
+            return updateTicketStatus(userDetails, flightId.getValue(), TicketStatus.CONFIRMED, "Pomyślnie potwierdzono lot", "Potwierdzenie lotu nie powiodło się. Spróbuj ponownie za jakiś czas");
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>("Nie znaleziono lotu o podanym ID", HttpStatus.NOT_FOUND);
+        }
     }
 }
