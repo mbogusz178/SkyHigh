@@ -2,8 +2,10 @@ package mbogusz.spring.skyhigh.endpoint;
 
 import mbogusz.spring.skyhigh.entity.Flight;
 import mbogusz.spring.skyhigh.entity.Ticket;
+import mbogusz.spring.skyhigh.entity.TicketStatus;
 import mbogusz.spring.skyhigh.entity.auth.Passenger;
 import mbogusz.spring.skyhigh.entity.dto.*;
+import mbogusz.spring.skyhigh.entity.dto.template.SimpleDTO;
 import mbogusz.spring.skyhigh.mapper.*;
 import mbogusz.spring.skyhigh.mapper.context.PassengerComposition;
 import mbogusz.spring.skyhigh.repository.FlightRepository;
@@ -14,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
 import java.sql.Timestamp;
@@ -106,5 +110,23 @@ public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
         }
 
         return new ResponseEntity<>(userFlightDTOs, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/cancelFlight")
+    public ResponseEntity<String> cancelFlight(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody SimpleDTO<Long> flightId) {
+        if(userDetails == null) return new ResponseEntity<>("Nie jesteś zalogowany", HttpStatus.FORBIDDEN);
+
+        Passenger passenger = passengerRepository.getByEmail(userDetails.getUsername());
+
+        try {
+            List<Ticket> allFlightTicketsOfUser = ticketRepository.getTicketsOfUserForFlight(flightId.getValue(), passenger.getId());
+            for (Ticket ticket: allFlightTicketsOfUser) {
+                ticket.setStatus(TicketStatus.CANCELLED);
+            }
+            ticketRepository.saveAll(allFlightTicketsOfUser);
+            return new ResponseEntity<>("Pomyślnie odwołano lot", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Anulowanie lotu nie powiodło się. Spróbuj ponownie za jakiś czas", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
