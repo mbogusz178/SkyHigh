@@ -122,17 +122,20 @@ public class TicketEndpoint extends BaseEndpoint<Long, Ticket, TicketDTO> {
         }
 
         Seat newSeat = seatRepository.getSeatFromPosition(ticket.getSeat().getFlight().getId(), changeRequest.getRowNumber(), changeRequest.getSeatLetter());
-        if(newSeat.getStatus() != SeatStatus.AVAILABLE) {
-            return new ResponseEntity<>("To miejsce jest już zajęte. Wybierz inne", HttpStatus.BAD_REQUEST);
+
+        if(!Objects.equals(oldSeat.getId(), newSeat.getId())) {
+            if (newSeat.getStatus() != SeatStatus.AVAILABLE) {
+                return new ResponseEntity<>("To miejsce jest już zajęte. Wybierz inne", HttpStatus.BAD_REQUEST);
+            }
+            newSeat.setStatus(SeatStatus.BOOKED);
+            oldSeat.setStatus(SeatStatus.AVAILABLE);
+            seatRepository.saveAll(List.of(newSeat, oldSeat));
         }
 
-        newSeat.setStatus(SeatStatus.BOOKED);
-        oldSeat.setStatus(SeatStatus.AVAILABLE);
         ticket.setSeat(newSeat);
         ticket.setFirstName(changeRequest.getFirstName());
         ticket.setLastName(changeRequest.getLastName());
-        seatRepository.saveAll(List.of(newSeat, oldSeat));
-        Ticket newTicket = repository.save(ticket);
+        repository.save(ticket);
         return new ResponseEntity<>("Dane rezerwacji zmienione pomyślnie", HttpStatus.OK);
     }
 }
