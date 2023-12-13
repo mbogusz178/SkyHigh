@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -112,21 +111,31 @@ public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
         return new ResponseEntity<>(userFlightDTOs, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/cancelFlight")
-    public ResponseEntity<String> cancelFlight(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody SimpleDTO<Long> flightId) {
+    private ResponseEntity<String> updateTicketStatus(UserDetails userDetails, Long flightId, TicketStatus ticketStatus, String successMessage, String errorMessage) {
         if(userDetails == null) return new ResponseEntity<>("Nie jesteś zalogowany", HttpStatus.FORBIDDEN);
 
         Passenger passenger = passengerRepository.getByEmail(userDetails.getUsername());
 
         try {
-            List<Ticket> allFlightTicketsOfUser = ticketRepository.getTicketsOfUserForFlight(flightId.getValue(), passenger.getId());
+            List<Ticket> allFlightTicketsOfUser = ticketRepository.getTicketsOfUserForFlight(flightId, passenger.getId());
+            if(allFlightTicketsOfUser.isEmpty()) return new ResponseEntity<>("Nie zarezerwowałeś tego lotu bądź został on już odwołany", HttpStatus.NOT_FOUND);
             for (Ticket ticket: allFlightTicketsOfUser) {
-                ticket.setStatus(TicketStatus.CANCELLED);
+                ticket.setStatus(ticketStatus);
             }
             ticketRepository.saveAll(allFlightTicketsOfUser);
-            return new ResponseEntity<>("Pomyślnie odwołano lot", HttpStatus.OK);
+            return new ResponseEntity<>(successMessage, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Anulowanie lotu nie powiodło się. Spróbuj ponownie za jakiś czas", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping(value = "/cancelFlight")
+    public ResponseEntity<String> cancelFlight(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody SimpleDTO<Long> flightId) {
+        return updateTicketStatus(userDetails, flightId.getValue(), TicketStatus.CANCELLED, "Pomyślnie odwołano lot", "Anulowanie lotu nie powiodło się. Spróbuj ponownie za jakiś czas");
+    }
+
+    @PostMapping(value = "/confirmFlight")
+    public ResponseEntity<String> confirmFlight(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody SimpleDTO<Long> flightId) {
+        return updateTicketStatus(userDetails, flightId.getValue(), TicketStatus.CONFIRMED, "Pomyślnie potwierdzono lot", "Potwierdzenie lotu nie powiodło się. Spróbuj ponownie za jakiś czas");
     }
 }
