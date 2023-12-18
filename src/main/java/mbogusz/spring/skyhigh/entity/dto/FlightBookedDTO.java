@@ -27,6 +27,8 @@ public class FlightBookedDTO {
     private Timestamp departureDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Timestamp arrivalDate;
-    @JsonProperty("otherPassengers")
-    private List<FlightOtherPassengerDTO> otherPassengers = new ArrayList<>();
+    private boolean confirmed;
+    private boolean cancelled;
+    @JsonProperty("passengers")
+    private List<FlightOtherPassengerDTO> passengers = new ArrayList<>();
 }

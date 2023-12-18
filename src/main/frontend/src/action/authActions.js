@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { login as requestLogin } from "../slice/authSlice";
+import {login as requestLogin} from "../slice/authSlice";
 
 export const login = (dispatch, email, password) => {
     const body = {
@@ -46,15 +46,5 @@ export const register = (dispatch, email, password, matchingPassword, firstName,
     }).catch(err => {
         console.log("Error code " - err.response.status)
         reject(err.response.data)
-    }))
-}
-
-export const bookFlights = (body) => {
-
-    return new Promise((resolve, reject) => axios.post("http://localhost/api/tickets/bookTickets", body).then(res => {
-        resolve(res.data)
-    }).catch(err => {
-        console.log("Error code " - err.response.status)
-        reject(err.response)
     }))
 }

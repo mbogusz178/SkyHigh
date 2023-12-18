@@ -1,5 +1,6 @@
 package mbogusz.spring.skyhigh.endpoint;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import mbogusz.spring.skyhigh.mapper.EntityMapper;
 import mbogusz.spring.skyhigh.util.Identifiable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,16 +17,20 @@ public abstract class BaseEndpoint<ID, E extends Identifiable<ID>, DTO extends I
 
     public abstract EntityMapper<ID, E, DTO> getMapper();
     public abstract JpaRepository<E, ID> getRepository();
+
+    @Hidden
     @GetMapping
     public ResponseEntity<List<DTO>> getAll() {
         return new ResponseEntity<>(getRepository().findAll().stream().map(e -> getMapper().toDto(e)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
+    @Hidden
     @GetMapping("/{id}")
     public ResponseEntity<DTO> getById(@PathVariable ID id) {
         return new ResponseEntity<>(getMapper().toDto(getRepository().findById(id).orElseThrow(NotFoundException::new)), HttpStatus.OK);
     }
 
+    @Hidden
     @PostMapping("/")
     public ResponseEntity<DTO> create(@RequestBody DTO dto) {
         E entity = getMapper().toEntity(dto);
@@ -34,6 +39,7 @@ public abstract class BaseEndpoint<ID, E extends Identifiable<ID>, DTO extends I
         return new ResponseEntity<>(savedDTO, HttpStatus.CREATED);
     }
 
+    @Hidden
     @PutMapping("/{id}")
     public ResponseEntity<DTO> update(@RequestBody DTO dto, @PathVariable ID id) {
         E entity = getMapper().toEntity(dto);
@@ -43,6 +49,7 @@ public abstract class BaseEndpoint<ID, E extends Identifiable<ID>, DTO extends I
         return new ResponseEntity<>(savedDTO, HttpStatus.OK);
     }
 
+    @Hidden
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable ID id) {
         getRepository().deleteById(id);

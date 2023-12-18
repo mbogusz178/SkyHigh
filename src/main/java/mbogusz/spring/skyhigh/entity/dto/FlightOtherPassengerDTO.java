@@ -12,6 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FlightOtherPassengerDTO {
+    private Long ticketId;
     private String ageGroup;
     private String firstName;
     private String lastName;

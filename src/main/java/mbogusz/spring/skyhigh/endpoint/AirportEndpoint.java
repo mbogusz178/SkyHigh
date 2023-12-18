@@ -1,5 +1,12 @@
 package mbogusz.spring.skyhigh.endpoint;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import mbogusz.spring.skyhigh.entity.Airport;
 import mbogusz.spring.skyhigh.entity.dto.AirportDTO;
 import mbogusz.spring.skyhigh.mapper.AirportMapper;
@@ -19,6 +26,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/airports")
+@Tag(name = "Airports")
 public class AirportEndpoint extends BaseEndpoint<String, Airport, AirportDTO> {
 
     private final AirportRepository repository;
@@ -40,8 +48,10 @@ public class AirportEndpoint extends BaseEndpoint<String, Airport, AirportDTO> {
         this.mapper = mapper;
     }
 
+    @Operation(summary = "Get airports in city", description = "Returns all airports located in specified city")
+    @ApiResponse(responseCode = "200", content = @Content(array = @ArraySchema(schema = @Schema(implementation = AirportDTO.class))))
     @GetMapping("/city")
-    public ResponseEntity<List<AirportDTO>> getByCity(@RequestParam String city) {
+    public ResponseEntity<List<AirportDTO>> getByCity(@RequestParam @Parameter(name = "city", description = "The city where the airports are located", example = "New York") String city) {
         return new ResponseEntity<>(repository.findByCity(city).stream().map(mapper::toDto).collect(Collectors.toList()), HttpStatus.OK);
     }
 }

@@ -4,7 +4,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {Button, Card, Dropdown} from "react-bootstrap";
 
-const BookingPassengerData = (props) => {
+export const BookingPassengerData = (props) => {
     const ageGroup = props.ageGroup === 'adult' ? 'Dorosły' : 'Dziecko'
     const ageGroupIndex = props.ageGroupIndex + 1
     const theSeat = props.flightData.seats.find(seat => {
@@ -48,7 +48,7 @@ const SeatText = React.forwardRef(({children, onClick}, ref) => (
     }}>{children}</span>
 ))
 
-const SeatRow = (props) => {
+export const SeatRow = (props) => {
     function selectForAdult(i, rowNumber, seatLetter) {
         const newBookedSeats = {...props.bookedSeats}
         newBookedSeats['adult' + i] = rowNumber.toString() + seatLetter.toString()

@@ -10,6 +10,9 @@ import Register from "./components/Register"
 import {Alerts} from "./components/Alerts";
 import BookFlight from "./components/BookFlight";
 import BookingForm from "./components/BookingForm";
+import UserBookedFlightsList from "./components/UserBookedFlightsList";
+import {ConfirmFlight} from "./components/ConfirmFlight";
+import EditingForm from "./components/EditingForm";
 
 class App extends Component {
 
@@ -26,7 +29,9 @@ class App extends Component {
                         <Route exact path="/register" element={<Register/>}/>
                         <Route exact path="/bookFlight" element={<BookFlight/>}/>
                         <Route exact path="/bookingForm" element={<BookingForm/>}/>
-                        <Route exact path="/tickets" element={<UserBookedFlightsList/>}/>
+                        <Route exact path="/bookedFlights" element={<UserBookedFlightsList/>}/>
+                        <Route exact path="/confirm" element={<ConfirmFlight/>}/>
+                        <Route exact path="/bookedFlightDetails" element={<EditingForm/>}/>
                     </Routes>
                     <Alerts/>
                 </Router>

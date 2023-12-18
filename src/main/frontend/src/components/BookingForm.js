@@ -4,7 +4,8 @@ import {connect} from "react-redux";
 import {BookingSummary} from "./BookFlight";
 import {useLocation, useNavigate} from "react-router-dom";
 import React, {Component, useEffect, useState} from "react";
-import {bookFlights, register} from "../action/authActions";
+import {register} from "../action/authActions";
+import {bookFlights} from "../action/flightActions";
 
 class BookingFormOther extends Component {
 
@@ -33,18 +34,18 @@ class BookingFormOther extends Component {
             <div>
                 <div className="text-center">
                     <input id="firstNameInput"
-                           className={(('otherPassengers[' + this.props.index + '].firstName') in this.props.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"}
+                           className={(('otherPassengers[' + this.props.totalIndex + '].firstName') in this.props.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"}
                            placeholder="Imię" type="text" value={this.props.firstName}
                            onChange={this.onFirstNameChange}/>
-                    {(('otherPassengers[' + this.props.index + '].firstName') in this.props.errors) ? (
-                        <small id="firstNameHelp" className="text-danger mt-1">{this.props.errors['otherPassengers[' + this.props.index + '].firstName']}</small>
+                    {(('otherPassengers[' + this.props.totalIndex + '].firstName') in this.props.errors) ? (
+                        <small id="firstNameHelp" className="text-danger mt-1">{this.props.errors['otherPassengers[' + this.props.totalIndex + '].firstName']}</small>
                     ) : null}
                     <input id="lastNameInput"
-                           className={(('otherPassengers[' + this.props.index + '].lastName') in this.props.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"}
+                           className={(('otherPassengers[' + this.props.totalIndex + '].lastName') in this.props.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"}
                            placeholder="Nazwisko" type="text" value={this.props.lastName}
                            onChange={this.onLastNameChange}/>
-                    {(('otherPassengers[' + this.props.index + '].lastName') in this.props.errors) ? (
-                        <small id="lastNameHelp" className="text-danger mt-1">{this.props.errors['otherPassengers[' + this.props.index + '].lastName']}</small>
+                    {(('otherPassengers[' + this.props.totalIndex + '].lastName') in this.props.errors) ? (
+                        <small id="lastNameHelp" className="text-danger mt-1">{this.props.errors['otherPassengers[' + this.props.totalIndex + '].lastName']}</small>
                     ) : null}
                     {('message' in this.props.errors) ? (
                         <div>
@@ -171,7 +172,7 @@ const BookingForm = (props) => {
     useEffect(() => {
         const currentBookingData = {...fullBookingData}
         currentBookingData['adult0'] = {bookedSeat: bookedSeats['adult0']} // TODO fill main passenger's form with logged in user data
-        for (let i = 1; i < adults; i++) {
+        for (let i = 1; i <= adults; i++) {
             currentBookingData[('adult' + i)] = {bookedSeat: bookedSeats[('adult' + i)]}
         }
         for (let i = 0; i < children; i++) {
@@ -206,7 +207,7 @@ const BookingForm = (props) => {
             const bookingData = otherBookingData[otherBookingDataKey]
             const ageGroup = otherBookingDataKey.startsWith("child") ? "CHILD" : "ADULT"
             const finalBookingData = {
-                rowNumber: bookingData.bookedSeat.match(/^(\d+)/) ? Number(fullBookingData['adult0'].bookedSeat.match(/^(\d+)/)[0]) : null,
+                rowNumber: bookingData.bookedSeat.match(/^(\d+)/) ? Number(fullBookingData[otherBookingDataKey].bookedSeat.match(/^(\d+)/)[0]) : null,
                 seatLetter: bookingData.bookedSeat.replace(/^(\d+)/, ""),
                 ageGroup,
                 firstName: bookingData.firstName || '',
@@ -255,7 +256,7 @@ const BookingForm = (props) => {
                     return (
                         <Tab eventKey={"adult" + (Number(adultIndex) + 1)}
                              title={"Dorosły " + (Number(adultIndex) + 2)}>
-                            <BookingFormOther index={Number(adultIndex + 1)} bookings={adultsBookings}
+                            <BookingFormOther index={Number(adultIndex + 1)} bookings={adultsBookings} totalIndex={Number(adultIndex)}
                                               setFullBookingData={setFullBookingData} keyPrefix="adult"
                                               errors={errors}/>
                         </Tab>
@@ -264,7 +265,7 @@ const BookingForm = (props) => {
                 {[...Array(children).keys()].map((childIndex, i) => {
                     return (
                         <Tab eventKey={"child" + (Number(childIndex))} title={"Dziecko " + (Number(childIndex) + 1)}>
-                            <BookingFormOther index={Number(childIndex)} bookings={childrenBookings}
+                            <BookingFormOther index={Number(childIndex)} bookings={childrenBookings} totalIndex={adults +  Number(childIndex)}
                                               setFullBookingData={setFullBookingData} keyPrefix="child"
                                               errors={errors}/>
                         </Tab>

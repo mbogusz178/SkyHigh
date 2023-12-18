@@ -10,7 +10,8 @@ import org.mapstruct.Mappings;
 public abstract class FlightOtherPassengerMapper {
     @Mappings({
             @Mapping(source = "seat.rowNumber", target = "rowNumber"),
-            @Mapping(source = "seat.seatLetter", target = "seatLetter")
+            @Mapping(source = "seat.seatLetter", target = "seatLetter"),
+            @Mapping(source = "id", target = "ticketId")
     })
     public abstract FlightOtherPassengerDTO toDto(Ticket ticket);
 }

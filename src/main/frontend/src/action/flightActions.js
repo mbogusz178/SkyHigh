@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { searchFlights } from "../slice/flightSlice";
+import {searchFlights} from "../slice/flightSlice";
 
 export const getFlights = (dispatch, source, destination, departureAfter, departureBefore, arrivalAfter, arrivalBefore, adultCount, childCount, flightTicketMinPrice, flightTicketMaxPrice) => {
     const params = {
@@ -12,5 +12,23 @@ export const getFlights = (dispatch, source, destination, departureAfter, depart
     }).catch((err) => {
         console.log("Error code " + err.response.status)
         reject()
+    }))
+}
+export const bookFlights = (body) => {
+
+    return new Promise((resolve, reject) => axios.post("http://localhost/api/tickets/bookTickets", body).then(res => {
+        resolve(res.data)
+    }).catch(err => {
+        console.log("Error code " + err.response.status)
+        reject(err.response)
+    }))
+}
+
+export const editFlight = (body) => {
+    return new Promise((resolve, reject) => axios.put("http://localhost/api/tickets/editTicket", body).then(res => {
+        resolve(res.data)
+    }).catch(err => {
+        console.log("Error code " + err.response.status)
+        reject(err.response)
     }))
 }

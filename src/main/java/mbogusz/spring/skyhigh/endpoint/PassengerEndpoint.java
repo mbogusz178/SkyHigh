@@ -1,5 +1,12 @@
 package mbogusz.spring.skyhigh.endpoint;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import mbogusz.spring.skyhigh.entity.auth.Passenger;
 import mbogusz.spring.skyhigh.entity.dto.PassengerGetDTO;
 import mbogusz.spring.skyhigh.entity.dto.PassengerLoginDTO;
@@ -29,6 +36,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/passengers")
+@Tag(name = "Passengers")
 public class PassengerEndpoint extends BaseEndpoint<Long, Passenger, PassengerPostDTO> {
 
     private final PassengerRepository repository;
@@ -56,8 +64,13 @@ public class PassengerEndpoint extends BaseEndpoint<Long, Passenger, PassengerPo
         this.getMapper = getMapper;
     }
 
+    @Operation(summary = "Register and create an account", description = "Creates an account")
+    @ApiResponses({
+            @ApiResponse(responseCode = "409", description = "User with the email already exists", content = @Content(schema = @Schema(implementation = SimpleValidationMessage.class))),
+            @ApiResponse(responseCode = "201", description = "User created successfully", content = @Content(schema = @Schema(implementation = String.class)))
+    })
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@Valid @RequestBody PassengerRegistrationDTO filledForm) {
+    public ResponseEntity<Object> register(@Valid @RequestBody @Parameter(name = "filledForm", description = "Registration form") PassengerRegistrationDTO filledForm) {
         try {
             Passenger registered = passengerRegistrationService.register(filledForm);
         } catch (EntityExistsException e) {
@@ -66,8 +79,13 @@ public class PassengerEndpoint extends BaseEndpoint<Long, Passenger, PassengerPo
         return new ResponseEntity<>("Zarejestrowano pomyślnie", HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Login to the account", description = "Logs in to account and updates session data")
+    @ApiResponses({
+            @ApiResponse(responseCode = "401", description = "Wrong email or password", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "200", description = "Logged in successfully", content = @Content(schema = @Schema(implementation = String.class)))
+    })
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@Valid @RequestBody PassengerLoginDTO filledForm) {
+    public ResponseEntity<Object> login(@Valid @RequestBody @Parameter(name = "filledForm", description = "Login form") PassengerLoginDTO filledForm) {
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(filledForm.getEmail(), filledForm.getPassword()));
@@ -78,6 +96,11 @@ public class PassengerEndpoint extends BaseEndpoint<Long, Passenger, PassengerPo
         return new ResponseEntity<>(new SimpleValidationMessage("Zalogowano pomyślnie"), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get current user data", description = "Returns current user data if logged in")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Data retrieved successfully", content = @Content(schema = @Schema(implementation = PassengerGetDTO.class))),
+            @ApiResponse(responseCode = "401", description = "Not logged in")
+    })
     @GetMapping("/currentUser")
     public ResponseEntity<PassengerGetDTO> currentUser(@AuthenticationPrincipal UserDetails userDetails) {
         if(userDetails instanceof Passenger) {
@@ -87,6 +110,11 @@ public class PassengerEndpoint extends BaseEndpoint<Long, Passenger, PassengerPo
         return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
 
+    @Operation(summary = "Log out", description = "Logs out of website")
+    @ApiResponses({
+            @ApiResponse(responseCode = "401", description = "Not logged in", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "200", description = "Logged out successfully", content = @Content(schema = @Schema(implementation = String.class)))
+    })
     @GetMapping("/logout")
     public ResponseEntity<String> logout(@AuthenticationPrincipal UserDetails userDetails) {
         if(userDetails == null) return new ResponseEntity<>("Nie jesteś zalogowany", HttpStatus.UNAUTHORIZED);

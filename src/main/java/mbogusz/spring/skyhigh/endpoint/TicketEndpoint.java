@@ -1,5 +1,12 @@
 package mbogusz.spring.skyhigh.endpoint;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import mbogusz.spring.skyhigh.entity.*;
 import mbogusz.spring.skyhigh.entity.auth.Passenger;
 import mbogusz.spring.skyhigh.entity.dto.TicketDTO;
@@ -32,6 +39,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tickets")
+@Tag(name = "Tickets")
 public class TicketEndpoint extends BaseEndpoint<Long, Ticket, TicketDTO> {
 
     private final TicketRepository repository;
@@ -61,8 +69,14 @@ public class TicketEndpoint extends BaseEndpoint<Long, Ticket, TicketDTO> {
         this.flightBookedMapper = flightBookedMapper;
     }
 
+    @Operation(summary = "Book tickets for all the specified passengers and seats", description = "Return booked tickets")
+    @ApiResponses({
+            @ApiResponse(responseCode = "403", description = "Not logged in", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "Seat already booked or unavailable", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "201", description = "All tickets successfully booked", content = @Content(schema = @Schema(implementation = String.class)))
+    })
     @PostMapping("/bookTickets")
-    public ResponseEntity<Object> bookTicket(@Valid @RequestBody TicketReservationDTO ticketReservationDTO, @AuthenticationPrincipal UserDetails userDetails) throws MessagingException {
+    public ResponseEntity<Object> bookTicket(@Valid @RequestBody @Parameter(name = "ticketReservationDTO", description = "Ticket reservation") TicketReservationDTO ticketReservationDTO, @AuthenticationPrincipal UserDetails userDetails) throws MessagingException {
         if(userDetails == null) return new ResponseEntity<>("Zaloguj się, aby zarezerwować lot", HttpStatus.FORBIDDEN);
         Passenger bookingUser = passengerRepository.getByEmail(userDetails.getUsername());
 
@@ -108,8 +122,14 @@ public class TicketEndpoint extends BaseEndpoint<Long, Ticket, TicketDTO> {
         return new ResponseEntity<>(savedTickets.stream().map(mapper::toDto).collect(Collectors.toList()), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Change the reservation data for a ticket", description = "Changes the reservation data (first name, last name or seat) of a ticket")
+    @ApiResponses({
+            @ApiResponse(responseCode = "403", description = "Not logged in or not the owner of the ticket", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "Seat already taken or unavailable", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "200", description = "Ticket data changed successfully", content = @Content(schema = @Schema(implementation = String.class)))
+    })
     @PutMapping("/editTicket")
-    public ResponseEntity<Object> editTicket(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody TicketReservationChangeDTO changeRequest) {
+    public ResponseEntity<Object> editTicket(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody @Parameter(name = "changeRequest", description = "New data for the ticket") TicketReservationChangeDTO changeRequest) {
         if(userDetails == null) return new ResponseEntity<>("Nie jesteś zalogowany", HttpStatus.FORBIDDEN);
 
         Passenger user = passengerRepository.getByEmail(userDetails.getUsername());

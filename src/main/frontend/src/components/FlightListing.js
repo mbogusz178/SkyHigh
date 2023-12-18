@@ -1,7 +1,7 @@
 import {Button} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 
-function getPolishMonth(monthNumber) {
+export function getPolishMonth(monthNumber) {
     switch (monthNumber) {
         case 1: return "stycznia"
         case 2: return "lutego"
@@ -27,7 +27,7 @@ export const FlightListing = (props) => {
         <tr className="table-primary">
             <td>{flight.source.city} ({flight.source.id})</td>
             <td>{flight.destination.city} ({flight.destination.id})</td>
-            <td>{departureDate.getDate()} {getPolishMonth(departureDate.getMonth())} {departureDate.getFullYear()}</td>
+            <td>{departureDate.getDate()} {getPolishMonth(departureDate.getMonth() + 1)} {departureDate.getFullYear()}</td>
             <td>{departureDate.getHours()}:{departureDate.getMinutes().toLocaleString('pl-PL', {
                 minimumIntegerDigits: 2,
                 maximumFractionDigits: 0,

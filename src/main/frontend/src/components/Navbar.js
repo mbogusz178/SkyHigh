@@ -38,7 +38,7 @@ class NavbarComponent extends Component {
                     {(this.props.currentUser !== null) ? (
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/profile">{this.props.currentUser.firstName } {this.props.currentUser.lastName}</Link>
+                                <Link className="nav-link" to="/bookedFlights">{this.props.currentUser.firstName } {this.props.currentUser.lastName}</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/logout">Wyloguj się</Link>
