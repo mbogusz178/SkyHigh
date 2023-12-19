@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {connect} from "react-redux";
 import {Button, Container} from "react-bootstrap";
-import {getEnglishMonth} from "./FlightListing";
+import {getPolishMonth} from "./FlightListing-pl";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
@@ -55,26 +55,27 @@ const UserBookedFlightListing = (props) => {
         <tr className="table-primary">
             <td>{flight.source.city} ({flight.source.id})</td>
             <td>{flight.destination.city} ({flight.destination.id})</td>
-            <td>{getEnglishMonth(departureDate.getMonth() + 1)} {departureDate.getDate()}, {departureDate.getFullYear()}</td>
-            <td>{departureDate.getHours()}:{departureDate.getMinutes().toLocaleString('en-US', {
+            <td>{departureDate.getDate()} {getPolishMonth(departureDate.getMonth() + 1)} {departureDate.getFullYear()}</td>
+            <td>{departureDate.getHours()}:{departureDate.getMinutes().toLocaleString('pl-PL', {
                 minimumIntegerDigits: 2,
                 maximumFractionDigits: 0,
                 useGrouping: false
             })}</td>
-            <td>{getEnglishMonth(arrivalDate.getMonth() + 1)} {arrivalDate.getDate()}, {arrivalDate.getFullYear()}</td>
-            <td>{arrivalDate.getHours()}:{arrivalDate.getMinutes().toLocaleString('en-US', {
+            <td>{arrivalDate.getDate()} {getPolishMonth(arrivalDate.getMonth())} {arrivalDate.getFullYear()}</td>
+            <td>{arrivalDate.getHours()}:{arrivalDate.getMinutes().toLocaleString('pl-PL', {
                 minimumIntegerDigits: 2,
                 maximumFractionDigits: 0,
                 useGrouping: false
             })}</td>
             <td><Button variant="info" onClick={() => {
+                console.log(flight)
                 navigate("/bookedFlightDetails", {
                 state: {
                     flight: flight
                 }})
-            }}>Detail</Button></td>
-            <td><Button variant="success" disabled={isConfirmationDisabled || isRequestPending} onClick={!isConfirmationDisabled ? () => confirmFlight() : null}>{flight.confirmed ? "Flight confirmed!" : flight.cancelled ? "Flight cancelled!" : "Confirm flight"}</Button> </td>
-            <td><Button variant="danger" disabled={isCancellingDisabled || isRequestPending} onClick={!isCancellingDisabled ? () => cancelFlight() : null}>{flight.cancelled ? "Flight cancelled!" : flight.confirmed ? "Flight confirmed!" : "Cancel flight"}</Button></td>
+            }}>Szczegóły</Button></td>
+            <td><Button variant="success" disabled={isConfirmationDisabled || isRequestPending} onClick={!isConfirmationDisabled ? () => confirmFlight() : null}>{flight.confirmed ? "Lot potwierdzony!" : flight.cancelled ? "Lot odwołany!" : "Potwierdź lot"}</Button> </td>
+            <td><Button variant="danger" disabled={isCancellingDisabled || isRequestPending} onClick={!isCancellingDisabled ? () => cancelFlight() : null}>{flight.cancelled ? "Lot odwołany!" : flight.confirmed ? "Lot potwierdzony!" : "Odwołaj lot"}</Button></td>
         </tr>
     )
 }
@@ -104,19 +105,19 @@ const UserBookedFlightsList = (props) => {
 
     return (
         <Container>
-            <p className="mt-3 text-center">Your flights</p>
+            <p className="mt-3 text-center">Twoje loty</p>
             <table className="table table-hover mt-3">
                 <thead>
                 <tr>
-                    <th scope="col">From airport</th>
-                    <th scope="col">To airport</th>
-                    <th scope="col">Departure date</th>
-                    <th scope="col">Departure time</th>
-                    <th scope="col">Arrival date</th>
-                    <th scope="col">Arrival time</th>
-                    <th scope="col">Details</th>
-                    <th scope="col">Confirm flight</th>
-                    <th scope="col">Cancel flight</th>
+                    <th scope="col">Z lotniska</th>
+                    <th scope="col">Na lotnisko</th>
+                    <th scope="col">Data odlotu</th>
+                    <th scope="col">Godzina odlotu</th>
+                    <th scope="col">Data przylotu</th>
+                    <th scope="col">Godzina przylotu</th>
+                    <th scope="col">Szczegóły</th>
+                    <th scope="col">Potwierdź lot</th>
+                    <th scope="col">Odwołaj lot</th>
                 </tr>
                 </thead>
                 <tbody>

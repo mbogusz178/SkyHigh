@@ -77,7 +77,7 @@ public class TicketEndpoint extends BaseEndpoint<Long, Ticket, TicketDTO> {
     })
     @PostMapping("/bookTickets")
     public ResponseEntity<Object> bookTicket(@Valid @RequestBody @Parameter(name = "ticketReservationDTO", description = "Ticket reservation") TicketReservationDTO ticketReservationDTO, @AuthenticationPrincipal UserDetails userDetails) throws MessagingException {
-        if(userDetails == null) return new ResponseEntity<>("Zaloguj się, aby zarezerwować lot", HttpStatus.FORBIDDEN);
+        if(userDetails == null) return new ResponseEntity<>("Login to book a flight", HttpStatus.FORBIDDEN);
         Passenger bookingUser = passengerRepository.getByEmail(userDetails.getUsername());
 
         List<Ticket> tickets = new ArrayList<>();
@@ -88,7 +88,7 @@ public class TicketEndpoint extends BaseEndpoint<Long, Ticket, TicketDTO> {
         mainTicket.setDateBooked(new Timestamp(new Date().getTime()));
         Seat seat = seatRepository.getSeatFromPosition(ticketReservationDTO.getFlightId(), mainReservationDTO.getRowNumber(), mainReservationDTO.getSeatLetter());
         mainTicket.setSeat(seat);
-        if(seat.getStatus() != SeatStatus.AVAILABLE) return new ResponseEntity<>("Miejsce jest już zajęte bądź niedostępne: " + seat.getRowNumber() + seat.getSeatLetter(), HttpStatus.BAD_REQUEST);
+        if(seat.getStatus() != SeatStatus.AVAILABLE) return new ResponseEntity<>("The seat is already taken or unavailable: " + seat.getRowNumber() + seat.getSeatLetter(), HttpStatus.BAD_REQUEST);
         seat.setStatus(SeatStatus.BOOKED);
         mainTicket.setPassenger(bookingUser);
         mainTicket.setStatus(TicketStatus.PENDING);
@@ -106,7 +106,7 @@ public class TicketEndpoint extends BaseEndpoint<Long, Ticket, TicketDTO> {
             otherTicket.setFlightClass(null);
             Seat seat1 = seatRepository.getSeatFromPosition(ticketReservationDTO.getFlightId(), otherReservationsDTO.getRowNumber(), otherReservationsDTO.getSeatLetter());
             otherTicket.setSeat(seat1);
-            if(seat1.getStatus() != SeatStatus.AVAILABLE) return new ResponseEntity<>("Miejsce jest już zajęte bądź niedostępne: " + seat1.getRowNumber() + seat1.getSeatLetter(), HttpStatus.BAD_REQUEST);
+            if(seat1.getStatus() != SeatStatus.AVAILABLE) return new ResponseEntity<>("The seat is already taken or unavailable: " + seat1.getRowNumber() + seat1.getSeatLetter(), HttpStatus.BAD_REQUEST);
             seat1.setStatus(SeatStatus.BOOKED);
             otherTicket.setPassenger(bookingUser);
             otherTicket.setStatus(TicketStatus.PENDING);
@@ -130,7 +130,7 @@ public class TicketEndpoint extends BaseEndpoint<Long, Ticket, TicketDTO> {
     })
     @PutMapping("/editTicket")
     public ResponseEntity<Object> editTicket(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody @Parameter(name = "changeRequest", description = "New data for the ticket") TicketReservationChangeDTO changeRequest) {
-        if(userDetails == null) return new ResponseEntity<>("Nie jesteś zalogowany", HttpStatus.FORBIDDEN);
+        if(userDetails == null) return new ResponseEntity<>("Not logged in", HttpStatus.FORBIDDEN);
 
         Passenger user = passengerRepository.getByEmail(userDetails.getUsername());
 
@@ -138,14 +138,14 @@ public class TicketEndpoint extends BaseEndpoint<Long, Ticket, TicketDTO> {
         Seat oldSeat = ticket.getSeat();
 
         if(!Objects.equals(ticket.getPassenger().getId(), user.getId())) {
-            return new ResponseEntity<>("To miejsce nie jest zarezerwowane dla Ciebie", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You haven't booked this seat", HttpStatus.FORBIDDEN);
         }
 
         Seat newSeat = seatRepository.getSeatFromPosition(ticket.getSeat().getFlight().getId(), changeRequest.getRowNumber(), changeRequest.getSeatLetter());
 
         if(!Objects.equals(oldSeat.getId(), newSeat.getId())) {
             if (newSeat.getStatus() != SeatStatus.AVAILABLE) {
-                return new ResponseEntity<>("To miejsce jest już zajęte. Wybierz inne", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("This seat is already taken. Choose another one", HttpStatus.BAD_REQUEST);
             }
             newSeat.setStatus(SeatStatus.BOOKED);
             oldSeat.setStatus(SeatStatus.AVAILABLE);
@@ -156,6 +156,6 @@ public class TicketEndpoint extends BaseEndpoint<Long, Ticket, TicketDTO> {
         ticket.setFirstName(changeRequest.getFirstName());
         ticket.setLastName(changeRequest.getLastName());
         repository.save(ticket);
-        return new ResponseEntity<>("Dane rezerwacji zmienione pomyślnie", HttpStatus.OK);
+        return new ResponseEntity<>("Booking data changed successfully", HttpStatus.OK);
     }
 }

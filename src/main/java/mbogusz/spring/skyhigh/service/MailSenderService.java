@@ -39,7 +39,7 @@ public class MailSenderService {
         context.setVariables(properties);
         helper.setFrom(from);
         helper.setTo(recipient.getUsername());
-        helper.setSubject("Rezerwacja lotu");
+        helper.setSubject("Flight reservation");
         String html = templateEngine.process("flight-booked-email.html", context);
         helper.setText(html, true);
 
@@ -56,7 +56,7 @@ public class MailSenderService {
             context.setVariables(properties);
             helper.setFrom(from);
             helper.setTo(ticket.getPassenger().getEmail());
-            helper.setSubject("Potwierdzenie rezerwacji");
+            helper.setSubject("Reservation confirmation");
             String html = templateEngine.process("confirmation-notification.html", context);
             helper.setText(html, true);
 

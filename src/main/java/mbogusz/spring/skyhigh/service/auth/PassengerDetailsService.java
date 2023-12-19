@@ -24,7 +24,7 @@ public class PassengerDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Passenger passenger = repository.getByEmail(username);
         if(passenger == null) {
-            throw new UsernameNotFoundException("Nie znaleziono użytkownika o adresie email " + username);
+            throw new UsernameNotFoundException("User with email " + username + " not found");
         }
 
         return passenger;

@@ -76,7 +76,7 @@ public class PassengerEndpoint extends BaseEndpoint<Long, Passenger, PassengerPo
         } catch (EntityExistsException e) {
             return new ResponseEntity<>(new SimpleValidationMessage(e.getMessage()), HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>("Zarejestrowano pomyślnie", HttpStatus.CREATED);
+        return new ResponseEntity<>("Registered successfully", HttpStatus.CREATED);
     }
 
     @Operation(summary = "Login to the account", description = "Logs in to account and updates session data")
@@ -90,10 +90,10 @@ public class PassengerEndpoint extends BaseEndpoint<Long, Passenger, PassengerPo
         try {
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(filledForm.getEmail(), filledForm.getPassword()));
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>(new SimpleValidationMessage("Nieprawidłowe dane logowania"), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new SimpleValidationMessage("Wrong email or password"), HttpStatus.UNAUTHORIZED);
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>(new SimpleValidationMessage("Zalogowano pomyślnie"), HttpStatus.OK);
+        return new ResponseEntity<>(new SimpleValidationMessage("Login successful"), HttpStatus.OK);
     }
 
     @Operation(summary = "Get current user data", description = "Returns current user data if logged in")
@@ -117,8 +117,8 @@ public class PassengerEndpoint extends BaseEndpoint<Long, Passenger, PassengerPo
     })
     @GetMapping("/logout")
     public ResponseEntity<String> logout(@AuthenticationPrincipal UserDetails userDetails) {
-        if(userDetails == null) return new ResponseEntity<>("Nie jesteś zalogowany", HttpStatus.UNAUTHORIZED);
+        if(userDetails == null) return new ResponseEntity<>("Not logged in", HttpStatus.UNAUTHORIZED);
         SecurityContextHolder.clearContext();
-        return new ResponseEntity<>("Wylogowano pomyślnie", HttpStatus.OK);
+        return new ResponseEntity<>("Logout successful", HttpStatus.OK);
     }
 }

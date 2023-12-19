@@ -5,11 +5,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     </head>
     <body>
-        <p>Witaj, <span th:text="|${recipient.firstName} ${recipient.lastName}|">Gall Anonim</span>,</p>
-        <p>Potwierdzamy rezerwację lotu z lotniska <span th:text="|${source.airportName} (${source.city})|">nieznanego</span>
-        na lotnisko <span th:text="|${destination.airportName} (${destination.city})|">nieznane</span>.
-        30 minut przed odlotem otrzymasz powiadomienie mailowe z linkiem do potwierdzenia rezerwacji - potwierdzenie jest konieczne w celu dopuszczenia na pokład samolotu.</p>
-        <p>Życzymy udanej podróży!</p>
+        <p>Greetings, <span th:text="|${recipient.firstName} ${recipient.lastName}|">NAME</span>,</p>
+        <p>Your reservation of flight from airport <span th:text="|${source.airportName} (${source.city})|">unknown</span>
+        to airport <span th:text="|${destination.airportName} (${destination.city})|">unknown</span> was confirmed.
+        You will receive a notification mail 30 minutes before departure. The mail will contain a link to the reservation confirmation - the confirmation is essential for you to be allowed to board the plane.</p>
+        <p>We wish you a pleasant journey!</p>
         <p>SkyHigh</p>
     </body>
 </html>

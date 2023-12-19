@@ -27,11 +27,11 @@ public class TicketReservationChangeDTO {
     @Schema(name = "seatLetter", description = "New seat letter", example = "A")
     private String seatLetter;
     @NotNull
-    @NotEmpty(message = "Wpisz imię")
+    @NotEmpty(message = "Enter first name")
     @Schema(name = "firstName", description = "New first name", example = "Tom")
     private String firstName;
     @NotNull
-    @NotEmpty(message = "Wpisz nazwisko")
+    @NotEmpty(message = "Enter last name")
     @Schema(name = "lastName", description = "New last name", example = "Brown")
     private String lastName;
 }

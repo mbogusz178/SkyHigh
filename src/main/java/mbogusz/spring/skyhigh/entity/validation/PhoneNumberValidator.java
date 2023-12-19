@@ -10,12 +10,17 @@ import javax.validation.ConstraintValidatorContext;
 public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber, String> {
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
         try {
-            PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
             Phonenumber.PhoneNumber polishNumber = phoneNumberUtil.parse(value, "PL");
             return phoneNumberUtil.isValidNumber(polishNumber);
         } catch (NumberParseException e) {
-            return false;
+            try {
+                Phonenumber.PhoneNumber americanNumber = phoneNumberUtil.parse(value, "US");
+                return phoneNumberUtil.isValidNumber(americanNumber);
+            } catch (NumberParseException ex) {
+                return false;
+            }
         }
     }
 }

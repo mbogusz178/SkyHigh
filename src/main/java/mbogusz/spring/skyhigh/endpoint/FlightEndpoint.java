@@ -121,7 +121,7 @@ public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
     })
     @GetMapping("/bookedFlights")
     public ResponseEntity<Object> bookedFlights(@AuthenticationPrincipal UserDetails userDetails) {
-        if(userDetails == null) return new ResponseEntity<>("Nie jesteś zalogowany", HttpStatus.FORBIDDEN);
+        if(userDetails == null) return new ResponseEntity<>("Not logged in", HttpStatus.FORBIDDEN);
 
         Passenger passenger = passengerRepository.getByEmail(userDetails.getUsername());
 
@@ -139,13 +139,13 @@ public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
     }
 
     private ResponseEntity<String> updateTicketStatus(UserDetails userDetails, Long flightId, TicketStatus ticketStatus, String successMessage, String errorMessage) {
-        if(userDetails == null) return new ResponseEntity<>("Nie jesteś zalogowany", HttpStatus.FORBIDDEN);
+        if(userDetails == null) return new ResponseEntity<>("Not logged in", HttpStatus.FORBIDDEN);
 
         Passenger passenger = passengerRepository.getByEmail(userDetails.getUsername());
 
         try {
             List<Ticket> allFlightTicketsOfUser = ticketRepository.getTicketsOfUserForFlight(flightId, passenger.getId());
-            if(allFlightTicketsOfUser.isEmpty()) return new ResponseEntity<>("Nie zarezerwowałeś tego lotu bądź został on już odwołany", HttpStatus.NOT_FOUND);
+            if(allFlightTicketsOfUser.isEmpty()) return new ResponseEntity<>("You haven't booked this flight or it was already cancelled", HttpStatus.NOT_FOUND);
             for (Ticket ticket: allFlightTicketsOfUser) {
                 ticket.setStatus(ticketStatus);
                 if(ticketStatus == TicketStatus.CANCELLED) {
@@ -169,7 +169,7 @@ public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
     @Transactional
     @PostMapping(value = "/cancelFlight")
     public ResponseEntity<String> cancelFlight(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody @Parameter(name = "flightId", description = "Flight ID", examples = @ExampleObject("{\"value\": 1}")) SimpleDTO<Long> flightId) {
-        return updateTicketStatus(userDetails, flightId.getValue(), TicketStatus.CANCELLED, "Pomyślnie odwołano lot", "Anulowanie lotu nie powiodło się. Spróbuj ponownie za jakiś czas");
+        return updateTicketStatus(userDetails, flightId.getValue(), TicketStatus.CANCELLED, "Successfully cancelled the flight", "Something went wrong when cancelling the flight. Try again after some time");
     }
 
     @Operation(summary = "Confirm a flight", description = "Confirm a flight")
@@ -188,11 +188,11 @@ public class FlightEndpoint extends BaseEndpoint<Long, Flight, FlightDTO> {
             Flight flight = repository.findById(flightId.getValue()).orElseThrow();
             Timestamp departureDate = flight.getDepartureDate();
             if(new Date(departureDate.getTime() - (30 * MINUTE_MILLIS)).after(new Date())) { // if more than 30 minutes before flight
-                return new ResponseEntity<>("Można potwierdzić lot tylko 30 minut przed odlotem", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Flights can be confirmed only 30 minutes before departure", HttpStatus.BAD_REQUEST);
             }
-            return updateTicketStatus(userDetails, flightId.getValue(), TicketStatus.CONFIRMED, "Pomyślnie potwierdzono lot", "Potwierdzenie lotu nie powiodło się. Spróbuj ponownie za jakiś czas");
+            return updateTicketStatus(userDetails, flightId.getValue(), TicketStatus.CONFIRMED, "Flight confirmed successfully", "Something went wrong when confirming the flight. Try again after some time");
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>("Nie znaleziono lotu o podanym ID", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Flight ID not found", HttpStatus.NOT_FOUND);
         }
     }
 }

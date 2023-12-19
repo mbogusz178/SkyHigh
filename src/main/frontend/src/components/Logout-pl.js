@@ -17,10 +17,10 @@ const Logout = (props) => {
     }
 
     if(success) {
-        return <Navigate to='/' state={{alertType: 'alert-success', alertMessage: 'Successfully logged out'}}/>
+        return <Navigate to='/' state={{alertType: 'alert-success', alertMessage: 'Wylogowano pomyślnie'}}/>
     }
 
-    return <Navigate to="/login" state={{alertType: 'alert-info', alertMessage: 'You are not logged in'}}/>
+    return <Navigate to="/login" state={{alertType: 'alert-info', alertMessage: 'Nie jesteś zalogowany'}}/>
 }
 
 const mapStateToProps = (state) => {

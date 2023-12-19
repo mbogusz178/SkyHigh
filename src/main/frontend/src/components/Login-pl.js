@@ -42,12 +42,12 @@ class LoginComponent extends Component {
             <div>
                 <div className="jumbotron mt-1">
                     <div className="container text-center mt-3">
-                        <h1 className="display-4">Log in</h1>
-                        <input id="emailInput" className={('email' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Email" type="text" value={this.props.email} onChange={this.onEmailChange} />
+                        <h1 className="display-4">Zaloguj się</h1>
+                        <input id="emailInput" className={('email' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Adres email" type="text" value={this.props.email} onChange={this.onEmailChange} />
                         {('email' in this.state.errors) ? (
                             <small id="emailHelp" className="text-danger mt-1">{this.state.errors.email}</small>
                         ) : null}
-                        <input id="passwordInput" className={('password' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Password" type="password" value={this.props.password} onChange={this.onPasswordChange} />
+                        <input id="passwordInput" className={('password' in this.state.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"} placeholder="Hasło" type="password" value={this.props.password} onChange={this.onPasswordChange} />
                         {('password' in this.state.errors) ? (
                             <small id="passwordHelp" className="text-danger mt-1">{this.state.errors.password}</small>
                         ) : null}
@@ -56,8 +56,8 @@ class LoginComponent extends Component {
                                 <small id="generalHelp" className="text-danger mt-1">{this.state.errors.message}</small>
                             </div>
                         ) : null}
-                        <Button className="mt-3" variant="primary" disabled={this.state.isLoading} onClick={!this.state.isLoading ? (() => this.requestLogin(this.props.dispatch, this.props.navigate)) : null}>Log in</Button>
-                        <p className="mt-3">Don't have an account? <Link to="/register">Register</Link></p>
+                        <Button className="mt-3" variant="primary" disabled={this.state.isLoading} onClick={!this.state.isLoading ? (() => this.requestLogin(this.props.dispatch, this.props.navigate)) : null}>Zaloguj się</Button>
+                        <p className="mt-3">Nie masz konta? <Link to="/register">Zarejestruj się</Link></p>
                     </div>
                 </div>
             </div>

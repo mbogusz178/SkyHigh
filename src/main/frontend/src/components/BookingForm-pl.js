@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {BookingSummary} from "./BookFlight";
 import {useLocation, useNavigate} from "react-router-dom";
 import React, {Component, useEffect, useState} from "react";
+import {register} from "../action/authActions";
 import {bookFlights} from "../action/flightActions";
 
 class BookingFormOther extends Component {
@@ -34,14 +35,14 @@ class BookingFormOther extends Component {
                 <div className="text-center">
                     <input id="firstNameInput"
                            className={(('otherPassengers[' + this.props.totalIndex + '].firstName') in this.props.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"}
-                           placeholder="First name" type="text" value={this.props.firstName}
+                           placeholder="Imię" type="text" value={this.props.firstName}
                            onChange={this.onFirstNameChange}/>
                     {(('otherPassengers[' + this.props.totalIndex + '].firstName') in this.props.errors) ? (
                         <small id="firstNameHelp" className="text-danger mt-1">{this.props.errors['otherPassengers[' + this.props.totalIndex + '].firstName']}</small>
                     ) : null}
                     <input id="lastNameInput"
                            className={(('otherPassengers[' + this.props.totalIndex + '].lastName') in this.props.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"}
-                           placeholder="Last name" type="text" value={this.props.lastName}
+                           placeholder="Nazwisko" type="text" value={this.props.lastName}
                            onChange={this.onLastNameChange}/>
                     {(('otherPassengers[' + this.props.totalIndex + '].lastName') in this.props.errors) ? (
                         <small id="lastNameHelp" className="text-danger mt-1">{this.props.errors['otherPassengers[' + this.props.totalIndex + '].lastName']}</small>
@@ -108,31 +109,31 @@ class BookingFormMain extends Component {
             <div className="text-center">
                 <input id="firstNameInput"
                        className={('mainReservation.firstName' in this.props.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"}
-                       placeholder="First name" type="text" value={this.props.firstName} onChange={this.onFirstNameChange}/>
+                       placeholder="Imię" type="text" value={this.props.firstName} onChange={this.onFirstNameChange}/>
                 {('mainReservation.firstName' in this.props.errors) ? (
                     <small id="firstNameHelp" className="text-danger mt-1">{this.props.errors['mainReservation.firstName']}</small>
                 ) : null}
                 <input id="lastNameInput"
                        className={('mainReservation.lastName' in this.props.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"}
-                       placeholder="Last name" type="text" value={this.props.lastName} onChange={this.onLastNameChange}/>
+                       placeholder="Nazwisko" type="text" value={this.props.lastName} onChange={this.onLastNameChange}/>
                 {('mainReservation.lastName' in this.props.errors) ? (
                     <small id="lastNameHelp" className="text-danger mt-1">{this.props.errors['mainReservation.lastName']}</small>
                 ) : null}
                 <input id="cityInput"
                        className={('mainReservation.city' in this.props.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"}
-                       placeholder="City" type="text" value={this.props.city} onChange={this.onCityChange} />
+                       placeholder="Miasto" type="text" value={this.props.city} onChange={this.onCityChange} />
                 {('mainReservation.city' in this.props.errors) ? (
                     <small id="cityHelp" className="text-danger mt-1">{this.props.errors['mainReservation.city']}</small>
                 ) : null}
                 <input id="countryInput"
                        className={('mainReservation.country' in this.props.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"}
-                       placeholder="Country" type="text" value={this.props.country} onChange={this.onCountryChange} />
+                       placeholder="Kraj" type="text" value={this.props.country} onChange={this.onCountryChange} />
                 {('mainReservation.country' in this.props.errors) ? (
                     <small id="countryHelp" className="text-danger mt-1">{this.props.errors['mainReservation.country']}</small>
                 ) : null}
                 <input id="phoneNumberInput"
                        className={('mainReservation.phoneNumber' in this.props.errors) ? "form-control form-control-lg mt-3 is-invalid" : "form-control form-control-lg mt-3"}
-                       placeholder="Phone number" type="text" value={this.props.phoneNumber} onChange={this.onPhoneNumberChange} />
+                       placeholder="Numer telefonu" type="text" value={this.props.phoneNumber} onChange={this.onPhoneNumberChange} />
                 {('mainReservation.phoneNumber' in this.props.errors) ? (
                     <small id="phoneNumberHelp" className="text-danger mt-1">{this.props.errors['mainReservation.phoneNumber']}</small>
                 ) : null}
@@ -224,7 +225,7 @@ const BookingForm = (props) => {
         setIsLoading(true)
         setNotLoggedAlertVisible(false)
         bookFlights(request).then(res => {
-            navigate("/", {state: {alertType: 'alert-success', alertMessage: "Flight booked successfully. Check your email inbox"}})
+            navigate("/", {state: {alertType: 'alert-success', alertMessage: "Pomyślnie zarezerwowano lot. Sprawdź swoją skrzynkę odbiorczą email"}})
         }).catch(err => {
             if(err.status === 403) {
                 setNotLoggedAlertVisible(true)
@@ -239,7 +240,7 @@ const BookingForm = (props) => {
         <Container>
             {notLoggedAlertVisible ? (
                 <Alert className="text-center" key="notLoggedIn" variant="danger">
-                    You are not logged in! Log in to book a flight.
+                    Nie jesteś zalogowany! Zaloguj się, aby zarezerwować lot.
                 </Alert>
             ) : null}
             <BookingSummary className="mt-3" bookedSeats={bookedSeats} flightData={flightData}/>
@@ -247,14 +248,14 @@ const BookingForm = (props) => {
                 defaultActiveKey="adult0"
                 id="passengers-form"
                 className="mb-3 mt-3">
-                <Tab eventKey="adult0" title="Adult 1 (main)">
+                <Tab eventKey="adult0" title="Dorosły 1 (główny)">
                     <BookingFormMain index={0} bookings={adultsBookings} setFullBookingData={setFullBookingData}
                                      keyPrefix="adult" errors={errors}/>
                 </Tab>
                 {[...Array(adults).keys()].map((adultIndex, i) => {
                     return (
                         <Tab eventKey={"adult" + (Number(adultIndex) + 1)}
-                             title={"Adult " + (Number(adultIndex) + 2)}>
+                             title={"Dorosły " + (Number(adultIndex) + 2)}>
                             <BookingFormOther index={Number(adultIndex + 1)} bookings={adultsBookings} totalIndex={Number(adultIndex)}
                                               setFullBookingData={setFullBookingData} keyPrefix="adult"
                                               errors={errors}/>
@@ -263,7 +264,7 @@ const BookingForm = (props) => {
                 })}
                 {[...Array(children).keys()].map((childIndex, i) => {
                     return (
-                        <Tab eventKey={"child" + (Number(childIndex))} title={"Child " + (Number(childIndex) + 1)}>
+                        <Tab eventKey={"child" + (Number(childIndex))} title={"Dziecko " + (Number(childIndex) + 1)}>
                             <BookingFormOther index={Number(childIndex)} bookings={childrenBookings} totalIndex={adults +  Number(childIndex)}
                                               setFullBookingData={setFullBookingData} keyPrefix="child"
                                               errors={errors}/>
@@ -272,7 +273,7 @@ const BookingForm = (props) => {
                 })}
             </Tabs>
             <Button className="mx-auto d-block mt-3" variant="primary" disabled={isLoading}
-                    onClick={!isLoading ? () => makeReservation(fullBookingData, navigate) : null}>Continue</Button>
+                    onClick={!isLoading ? () => makeReservation(fullBookingData, navigate) : null}>Dalej</Button>
         </Container>
     )
 }

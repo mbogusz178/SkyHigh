@@ -18,7 +18,7 @@ export class SearchCityList extends Component {
             )
         } else {
             return (
-                <p>No city found</p>
+                <p>Nie znaleziono miasta</p>
             )
         }
     }

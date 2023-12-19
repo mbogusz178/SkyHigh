@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import {Button, Card, Dropdown} from "react-bootstrap";
 
 export const BookingPassengerData = (props) => {
-    const ageGroup = props.ageGroup === 'adult' ? 'Adult' : 'Child'
+    const ageGroup = props.ageGroup === 'adult' ? 'Dorosły' : 'Dziecko'
     const ageGroupIndex = props.ageGroupIndex + 1
     const theSeat = props.flightData.seats.find(seat => {
         return (seat.rowNumber === props.rowNumber) && (seat.seatLetter === props.seatLetter)
@@ -16,9 +16,9 @@ export const BookingPassengerData = (props) => {
             <Card.Header>{ageGroup} {ageGroupIndex}</Card.Header>
             <Card.Body>
                 <Card.Text>
-                    Row number: {theSeat.rowNumber} <br/>
-                    Seat letter: {theSeat.seatLetter} <br/>
-                    Flight class: {theSeat.flightClassName}
+                    Numer rzędu: {theSeat.rowNumber} <br/>
+                    Litera siedzenia: {theSeat.seatLetter} <br/>
+                    Klasa lotu: {theSeat.flightClassName}
                 </Card.Text>
             </Card.Body>
         </Card>
@@ -85,12 +85,12 @@ export const SeatRow = (props) => {
                     <Dropdown.Menu>
                         {adultArray.map((e, i) => {
                             return (
-                                <Dropdown.Item key={i} onClick={() => selectForAdult(i, theSeat.rowNumber, theSeat.seatLetter)}>Adult {(i + 1).toString()}</Dropdown.Item>
+                                <Dropdown.Item key={i} onClick={() => selectForAdult(i, theSeat.rowNumber, theSeat.seatLetter)}>Dorosły {(i + 1).toString()}</Dropdown.Item>
                             )
                         })}
                         {childArray.map((e, i) => {
                             return (
-                                <Dropdown.Item key={props.adults + i} onClick={() => selectForChild(i, theSeat.rowNumber, theSeat.seatLetter)}>Child {(i + 1).toString()}</Dropdown.Item>
+                                <Dropdown.Item key={props.adults + i} onClick={() => selectForChild(i, theSeat.rowNumber, theSeat.seatLetter)}>Dziecko {(i + 1).toString()}</Dropdown.Item>
                             )
                         })}
                     </Dropdown.Menu>
@@ -147,8 +147,8 @@ const BookFlight = (props) => {
         <div>
             {((flightData !== null) && (rowConfigArray !== null)) ? (
                 <div>
-                    <h5 className="text-center">Booking flight from {flight.source.city} to {flight.destination.city} (plane model {flightData.planeModel})</h5>
-                    <p className="text-center">Click on a seat to assign one of the passengers. Free seats are indicated by blue color, unavailable seats are grey, while taken seats are striped.</p>
+                    <h5 className="text-center">Rezerwacja lotu z {flight.source.city} do {flight.destination.city} (samolot {flightData.planeModel})</h5>
+                    <p className="text-center">Kliknij w miejsce, aby przydzelić do niego jednego z pasażerów. Wolne miejsca oznaczone są kolorem niebieskim, niedostępne - szarym, zaś zajęte - paskami.</p>
                     <div className="container mt-3">
                         {[...Array(numRows).keys()].map((row, i) => {
                             const sortedFiltered = seatList.filter((seat) => seat.rowNumber === row + 1).sort((a, b) => a.seatLetter.localeCompare(b.seatLetter))
@@ -163,7 +163,7 @@ const BookFlight = (props) => {
                             )
                         })}
                         <BookingSummary flightData={flightData} bookedSeats={bookedSeats}/>
-                        <Button className="mx-auto d-block mt-3" variant="primary" disabled={Object.keys(bookedSeats).length < (adults + children)} onClick={(Object.keys(bookedSeats).length >= (adults + children)) ? () => redirectToForm(bookedSeats) : null}>Continue</Button>
+                        <Button className="mx-auto d-block mt-3" variant="primary" disabled={Object.keys(bookedSeats).length < (adults + children)} onClick={(Object.keys(bookedSeats).length >= (adults + children)) ? () => redirectToForm(bookedSeats) : null}>Dalej</Button>
                     </div>
                 </div>
             ) : null}

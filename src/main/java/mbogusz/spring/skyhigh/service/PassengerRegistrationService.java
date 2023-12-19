@@ -26,7 +26,7 @@ public class PassengerRegistrationService {
     }
 
     public Passenger register(PassengerRegistrationDTO registrationDTO) throws EntityExistsException {
-        if(passengerRepository.getByEmail(registrationDTO.getEmail()) != null) throw new EntityExistsException("Adres email " + registrationDTO.getEmail() + " jest zajęty");
+        if(passengerRepository.getByEmail(registrationDTO.getEmail()) != null) throw new EntityExistsException("Email address " + registrationDTO.getEmail() + " is taken");
         Passenger passenger = registrationMapper.toEntity(registrationDTO);
         passenger.setPassword(encoder.encode(passenger.getPassword()));
         return passengerRepository.save(passenger);

@@ -104,6 +104,6 @@ Possible features to add or improve are:
 
 - code refactoring
 - front-end improvements
-- localization (currently only in Polish)
+- localization (currently only in English and Polish)
 - airline- or airport-side logic (flight scheduling, fleet management)
 - OAuth 2.0 support (Google Sign-In, Microsoft Account support, Google/Microsoft Authenticator app support for TOTP keys)

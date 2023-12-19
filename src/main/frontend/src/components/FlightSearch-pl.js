@@ -101,36 +101,36 @@ class FlightSearchComponent extends Component {
                 <div>
                     <div className="jumbotron mt-3">
                         <div className="container text-center mt-3">
-                            <h1 className="display-4">Search flights</h1>
-                            <p className="lead">Where do you wish to go? Fill the form and go on your dream tour!</p>
-                            <input id="sourceInput" className="form-control form-control-lg mt-3" placeholder="Source city" type="text" value={this.props.source} onChange={this.onSourceChange} />
-                            <input id="destInput" className="form-control form-control-lg mt-3" placeholder="Destination city" type="text" value={this.props.destination} onChange={this.onDestChange} />
+                            <h1 className="display-4">Wyszukaj loty</h1>
+                            <p className="lead">Gdzie się wybierasz? Wypełnij pola i odbądź wymarzoną podróż!</p>
+                            <input id="sourceInput" className="form-control form-control-lg mt-3" placeholder="Miasto początkowe" type="text" value={this.props.source} onChange={this.onSourceChange} />
+                            <input id="destInput" className="form-control form-control-lg mt-3" placeholder="Miasto docelowe" type="text" value={this.props.destination} onChange={this.onDestChange} />
                         </div>
                     </div>
                     <div className="container mt-3">
                         <div className="row mt-3">
                             <div className="col-md">
-                                <h5>Adults:</h5>
+                                <h5>Dorośli:</h5>
                             </div>
                             <input id="adultsInput" className="form-control form-control-lg col-md" type="number" value={this.props.adults} onChange={this.onAdultsChange} min="1" />
                             <div className="col-md"/>
                             <div className="col-md">
-                                <h5>Children:</h5>
+                                <h5>Dzieci:</h5>
                             </div>
                             <input id="childrenInput" className="form-control form-control-lg col-md" type="number" value={this.props.children} onChange={this.onChildrenChange} min="0" />
                         </div>
                         <div className="row mt-3">
                             <div className="col-md">
-                                <h5>Flight price:</h5>
+                                <h5>Cena lotu:</h5>
                             </div>
                             <div className="col-md">
-                                <h5>from</h5>
+                                <h5>od</h5>
                             </div>
                             <div className="col-md">
                                 <input id="minFlightPriceInput" className="form-control form-control-lg col-md" type="number" value={this.props.minFlightPrice} onChange={this.onMinFlightPriceChange} min="0"/>
                             </div>
                             <div className="col-md">
-                                <h5>to</h5>
+                                <h5>do</h5>
                             </div>
                             <div className="col-md">
                                 <input id="maxFlightPriceInput" className="form-control form-control-lg col-md" type="number" value={this.props.maxFlightPrice} onChange={this.onMaxFlightPriceChange} min="0"/>
@@ -138,10 +138,10 @@ class FlightSearchComponent extends Component {
                         </div>
                         <div className="row mt-3">
                             <div className="col-md">
-                                <h5>Earliest departure:</h5>
+                                <h5>Najwcześniejszy odlot:</h5>
                             </div>
                             <div className="col-md">
-                                <h5>Latest departure:</h5>
+                                <h5>Najpóźniejszy odlot:</h5>
                             </div>
                         </div>
                         <div className="row mt-3">
@@ -150,10 +150,10 @@ class FlightSearchComponent extends Component {
                         </div>
                         <div className="row mt-3">
                             <div className="listHeading mt-4 col-md">
-                                <h1>Cities:</h1>
+                                <h1>Miasta:</h1>
                             </div>
                             <div className="listHeading mt-4 col-md">
-                                <h1>Cities:</h1>
+                                <h1>Miasta:</h1>
                             </div>
                         </div>
                         <div className="row mt-3">
@@ -164,7 +164,7 @@ class FlightSearchComponent extends Component {
                                 <SearchCityList allCities={this.state.cities} enteredCity={this.state.destination} setCity={this.setDestination}/>
                             </div>
                         </div>
-                        <Button className="mx-auto d-block mt-3" variant="primary" disabled={isLoading} onClick={!isLoading ? (() => this.requestSearchFlights(navigate, dispatch)) : null}>Search</Button>
+                        <Button className="mx-auto d-block mt-3" variant="primary" disabled={isLoading} onClick={!isLoading ? (() => this.requestSearchFlights(navigate, dispatch)) : null}>Szukaj</Button>
                     </div>
                 </div>
     )}

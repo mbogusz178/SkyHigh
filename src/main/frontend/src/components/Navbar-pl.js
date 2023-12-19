@@ -24,7 +24,7 @@ class NavbarComponent extends Component {
                 <div className="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item active">
-                            <Link className="nav-link" to="/">Search flights</Link>
+                            <Link className="nav-link" to="/">Szukaj lotów</Link>
                         </li>
                     </ul>
                 </div>
@@ -41,13 +41,13 @@ class NavbarComponent extends Component {
                                 <Link className="nav-link" to="/bookedFlights">{this.props.currentUser.firstName } {this.props.currentUser.lastName}</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/logout">Log out</Link>
+                                <Link className="nav-link" to="/logout">Wyloguj się</Link>
                             </li>
                         </ul>
                     ) : (
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/login">Log in</Link>
+                                <Link className="nav-link" to="/login">Zaloguj się</Link>
                             </li>
                         </ul>
                     )}

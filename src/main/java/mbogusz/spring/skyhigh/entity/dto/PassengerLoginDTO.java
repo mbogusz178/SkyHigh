@@ -16,11 +16,11 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PassengerLoginDTO {
-    @Email(message = "Nieprawidłowy format adresu email")
-    @NotEmpty(message = "Wpisz adres email")
+    @Email(message = "Wrong format of email address")
+    @NotEmpty(message = "Enter email")
     @Schema(name = "email", description = "Email address", example = "example@example.com")
     private String email;
-    @NotEmpty(message = "Wpisz hasło")
+    @NotEmpty(message = "Enter password")
     @Schema(name = "passsword", description = "Password for the account")
     private String password;
 }

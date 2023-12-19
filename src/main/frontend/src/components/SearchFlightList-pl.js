@@ -1,6 +1,6 @@
 import {Component} from "react";
 import {connect, useDispatch, useSelector} from "react-redux";
-import {FlightListing} from "./FlightListing";
+import {FlightListing} from "./FlightListing-pl";
 import {useLocation} from "react-router-dom";
 
 class SearchFlightListComponent extends Component {
@@ -22,16 +22,16 @@ class SearchFlightListComponent extends Component {
         if(this.props.flights.length > 0) {
             return (
                 <div className="container">
-                    <p className="mt-3">Flights found for {adults} adults and {children} children</p>
+                    <p className="mt-3">Znalezione loty dla {adults} dorosłych i {children} dzieci</p>
                     <table className="table table-hover mt-3">
                         <thead>
                         <tr>
-                            <th scope="col">From airport</th>
-                            <th scope="col">To airport</th>
-                            <th scope="col">Departure date</th>
-                            <th scope="col">Departure time</th>
-                            <th scope="col">Flight price</th>
-                            <th scope="col">Book flight</th>
+                            <th scope="col">Z lotniska</th>
+                            <th scope="col">Na lotnisko</th>
+                            <th scope="col">Data odlotu</th>
+                            <th scope="col">Godzina odlotu</th>
+                            <th scope="col">Cena podróży</th>
+                            <th scope="col">Rezerwuj lot</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -43,7 +43,7 @@ class SearchFlightListComponent extends Component {
         } else {
             return (
                 <div className="container mt-3">
-                    <p>No flights found</p>
+                    <p>Nie znaleziono lotów</p>
                 </div>
             )
         }

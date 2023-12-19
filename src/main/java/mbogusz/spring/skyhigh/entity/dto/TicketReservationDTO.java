@@ -35,23 +35,23 @@ public class TicketReservationDTO {
         @Schema(name = "seatLetter", description = "Seat letter of seat to be booked", example = "A")
         private String seatLetter;
         @NotNull
-        @NotEmpty(message = "Wpisz imię")
+        @NotEmpty(message = "Enter first name")
         @Schema(name = "firstName", description = "First name of the person booking the reservation", example = "John")
         private String firstName;
         @NotNull
-        @NotEmpty(message = "Wpisz nazwisko")
+        @NotEmpty(message = "Enter last name")
         @Schema(name = "lastName", description = "Last name of the person booking the reservation", example = "Doe")
         private String lastName;
         @NotNull
-        @NotEmpty(message = "Wpisz miasto")
+        @NotEmpty(message = "Enter city")
         @Schema(name = "city", description = "City of the person booking the reservation", example = "New York")
         private String city;
         @NotNull
-        @NotEmpty(message = "Wpisz kraj")
+        @NotEmpty(message = "Enter country")
         @Schema(name = "country", description = "Country of the person booking the reservation", example = "USA")
         private String country;
         @NotNull
-        @NotEmpty(message = "Wpisz numer telefonu")
+        @NotEmpty(message = "Enter phone number")
         @PhoneNumber
         @Schema(name = "phoneNumber", description = "Phone number of the person booking the reservation, compliant with Polish standards", example = "600 600 600")
         private String phoneNumber;
@@ -74,11 +74,11 @@ public class TicketReservationDTO {
         @Schema(name = "ageGroup", description = "Age group of the passenger, playing a role in the ticket price; possible values are ADULT and CHILD", example = "ADULT")
         private String ageGroup;
         @NotNull
-        @NotEmpty(message = "Wpisz imię")
+        @NotEmpty(message = "Enter first name")
         @Schema(name = "firstName", description = "First name of the person taking the seat", example = "Jane")
         private String firstName;
         @NotNull
-        @NotEmpty(message = "Wpisz nazwisko")
+        @NotEmpty(message = "Enter last name")
         @Schema(name = "lastName", description = "Last name of the person taking the seat", example = "Doe")
         private String lastName;
     }
