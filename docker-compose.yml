@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  skyhigh-prod:
+    image: 'skyhigh:latest'
+    build:
+      context: .
+    container_name: skyhigh-prod
+    depends_on:
+      - skyhigh-db
+    environment:
+      SKYHIGH_DB_URL: jdbc:postgresql://skyhigh-db:5432/skyhigh
+      SKYHIGH_EMAIL: ${SKYHIGH_EMAIL}
+      SKYHIGH_PASSWORD: ${SKYHIGH_PASSWORD}
+      SKYHIGH_DB_PASSWORD: ${SKYHIGH_DB_PASSWORD}
+    ports:
+      - "80:80"
+  skyhigh-db:
+    image: 'postgres:16'
+    container_name: skyhigh-db
+    environment:
+      POSTGRES_PASSWORD: ${SKYHIGH_DB_PASSWORD}
+      POSTGRES_DB: skyhigh
+    expose:
+      - "5432"

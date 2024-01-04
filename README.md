@@ -15,7 +15,7 @@ SkyHigh is a web application implementing the backend part of an airline managem
 
 ## Technologies Used
 
-SkyHigh was developed using Spring Boot 2.7.17 and React 18.2.0 and is designed to work with PostgreSQL 16 databases, though no instance of such database is provided by the project itself. Instead, the user should connect their own PostgreSQL database located on the same host. More details are explained in the section [Setup Guide](#setup-guide).
+SkyHigh was developed using Spring Boot 2.7.17 and React 18.2.0 and is designed to work with PostgreSQL 16 databases, and the complete configuration is available as a Docker Compose project. The user, however, can connect their own PostgreSQL database located on the same host. More details are explained in the section [Setup Guide](#setup-guide).
 
 The application also uses a Google library called libphonenumber. Its purpose is to validate phone numbers with options for many locales.
 
@@ -27,17 +27,7 @@ First, clone this repository to a directory of your choice. In order to run the 
 
 To configure the database, you must first create a password. This can be done by simply creating an environmental variable called `SKYHIGH_DB_PASSWORD`, which specifies the password to the database.
 
-The connection URL is `jdbc:postgresql://localhost:5432/skyhigh` - database is located on the host machine port 5432 and is connected to the database named `skyhigh` - if not present, if should be created by calling `CREATE DATABASE skyhigh;` in the PostgreSQL console.
-
-The easiest way to install and run the database on your PC is to install Docker Desktop. After installing Docker, run the following command in the command line:
-
-`docker run --name skyhigh -e POSTGRES_PASSWORD=ABC -d -P -p 127.0.0.1:5432:5432 postgres`
-
-Before running the command, replace the `POSTGRES_PASSWORD` parameter value (`ABC` in the example) with your `SKYHIGH_DB_PASSWORD` environmental variable value. Docker will then create a new container called `skyhigh` based on the `postgres` image from Docker Hub and map its port 5432 to the respective host port. Then, access the terminal of the container (either through Docker Desktop or by running `docker exec -it skyhigh /bin/sh`), log to PostgreSQL by running `psql -U postgres` and create a new database called `skyhigh`:
-
-`CREATE DATABASE skyhigh;`
-
-After creating the database, exit the terminal. Your database is ready!
+If you do not wish to install PostgreSQL yourself, you can use the complete Docker Compose configuration, which is further explained in the [Starting the App](#starting-the-app) section. 
 
 ### Email Account
 
@@ -46,19 +36,23 @@ It is suggested that you create your own email address specifically for use with
 - `SKYHIGH_EMAIL`, containing the email address
 - `SKYHIGH_PASSWORD`, containing the email password or the application password associated with the email account
 
-If not using an IDE, make sure to set up the `JAVA_HOME` environmental variable to point to the location of your JDK. The app is designed for Java 11.   
+If not using an IDE, make sure to set up the `JAVA_HOME` environmental variable to point to the location of your JDK. The app is designed for Java 11.
 
-After configuring both services, start the application by running the following command in the project working directory:
+### Starting the App
 
-`./mvnw spring-boot:run`
+After configuring both services and setting up all three environmental variables, you can run the project by installing [Docker Desktop](https://www.docker.com) and running the following command in the project working directory:
 
-If successful, you can access the application with the following URL:
+`docker-compose up --build --force-recreate`
+
+This command will create two Docker containers, one for handling the database and one for handling the main application. If successful, you can access the application with the following URL:
 
 `http://localhost`
 
 Additionally, the API documentation using Swagger UI is available at URL:
 
 `http://localhost/swagger-ui.html`
+
+Remember **not** to delete the containers or rerun the Docker Compose command above unless you want to entirely reinstall the application. These actions will cause loss of all data in the database, so in order to restart the application after being shut down, use the Docker Desktop app to stop and rerun the existing container.
 
 As the app is not a complete and enterprise-level system and contains only the customer-side logic, initial population of the database is required. The main assumptions are:
 
@@ -67,6 +61,8 @@ As the app is not a complete and enterprise-level system and contains only the c
 - The `airport` table contains various airports identified by their IATA (International Air Transport Association) code, and are located in a certain city.
 - The `flight` table contains scheduled flights - their departing airport and date, arrival airport and date, ticket prices for adults and children, and the `plane` instance that will be used to carry the passengers.
 - The `seat_class` table defines several IATA-established fare classes: the economy class, the economy plus class, the business class and the first class. The classes are tied to seats by the `seat_class_ranges` table, which specifies the row ranges that define a section of the plane reserved for a specific fare class (eg. rows 1-10 contain first class seats, while rows 11-30 contain business class seats). The ranges, in a single plane, are assumed not to overlap each other, nor leave any empty rows with no business class assigned.
+
+The database is automatically populated with one plane, four seat classes, several airports and a set of flights on first startup should you choose to run the project with an IDE or use the Docker Compose config.
 
 ## Usage
 
