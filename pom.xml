@@ -49,6 +49,9 @@
 					</plugin>
 				</plugins>
 			</build>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 		</profile>
 	</profiles>
 	<dependencies>
@@ -209,6 +212,15 @@
 						</goals>
 						<configuration>
 							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm config set registry</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>config set registry http://registry.npmjs.org</arguments>
 						</configuration>
 					</execution>
 				</executions>

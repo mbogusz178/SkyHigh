@@ -40,7 +40,12 @@ If not using an IDE, make sure to set up the `JAVA_HOME` environmental variable 
 
 ### Starting the App
 
-After configuring both services and setting up all three environmental variables, you can run the project by installing [Docker Desktop](https://www.docker.com) and running the following command in the project working directory:
+After configuring both services and setting up all three environmental variables, you can build the project by running the following command:
+
+`mvnw.cmd clean install -DskipTests` (on Windows)
+`./mvnw clean install -DskipTests` (on Linux)
+
+Then you can run the project by installing [Docker Desktop](https://www.docker.com) and running the following command in the project working directory:
 
 `docker-compose up --build --force-recreate`
 
@@ -51,6 +56,8 @@ This command will create two Docker containers, one for handling the database an
 Additionally, the API documentation using Swagger UI is available at URL:
 
 `http://localhost/swagger-ui.html`
+
+If you wish to rebuild the app, delete all Docker containers related to the app first, then run the `mvnw` command above again.
 
 Remember **not** to delete the containers or rerun the Docker Compose command above unless you want to entirely reinstall the application. These actions will cause loss of all data in the database, so in order to restart the application after being shut down, use the Docker Desktop app to stop and rerun the existing container.
 
