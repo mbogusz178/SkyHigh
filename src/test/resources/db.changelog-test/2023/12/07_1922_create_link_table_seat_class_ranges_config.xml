@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="07_1922_create_link_table_seat_class_ranges_config" author="mbogusz178">
+        <createTable tableName="seat_class_ranges_seat_config">
+            <column name="seat_config_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_seat_config_link_class_range" references="seat_configuration(id)"/>
+            </column>
+            <column name="seat_class_range_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_seat_class_range_link_config" references="seat_class_ranges(id)"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="seat_class_ranges_seat_config"
+                       columnNames="seat_config_id, seat_class_range_id"
+                       constraintName="pk_seat_class_ranges_seat_config"/>
+    </changeSet>
+
+</databaseChangeLog>
