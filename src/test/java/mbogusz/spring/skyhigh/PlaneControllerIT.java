@@ -3,6 +3,7 @@ package mbogusz.spring.skyhigh;
 import mbogusz.spring.skyhigh.entity.Plane;
 import mbogusz.spring.skyhigh.entity.PlaneModel;
 import mbogusz.spring.skyhigh.entity.SeatConfiguration;
+import mbogusz.spring.skyhigh.mapper.PlaneMapper;
 import mbogusz.spring.skyhigh.repository.PlaneModelRepository;
 import mbogusz.spring.skyhigh.repository.PlaneRepository;
 import mbogusz.spring.skyhigh.repository.SeatConfigurationRepository;
@@ -33,6 +34,7 @@ public class PlaneControllerIT {
     private PlaneRepository planeRepository;
     private SeatConfigurationRepository seatConfigurationRepository;
     private PlaneModelRepository planeModelRepository;
+    private PlaneMapper planeMapper;
 
     @Container
     public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:16");
@@ -68,6 +70,11 @@ public class PlaneControllerIT {
         this.planeModelRepository = planeModelRepository;
     }
 
+    @Autowired
+    public void setPlaneMapper(PlaneMapper planeMapper) {
+        this.planeMapper = planeMapper;
+    }
+
     private SeatConfiguration getTestSeatConfig() {
         SeatConfiguration seatConfiguration = new SeatConfiguration();
         seatConfiguration.setRowConfig("3-3");
@@ -84,13 +91,13 @@ public class PlaneControllerIT {
         return airbus;
     }
 
-    private void createTestPlane() {
+    private Plane createTestPlane() {
         PlaneModel airbus = getTestPlaneModel();
         SeatConfiguration seatConfig = getTestSeatConfig();
         Plane plane = new Plane("SKY-AA", airbus, seatConfig);
         seatConfigurationRepository.save(seatConfig);
         planeModelRepository.save(airbus);
-        planeRepository.save(plane);
+        return planeRepository.save(plane);
     }
 
     @Test
@@ -116,6 +123,27 @@ public class PlaneControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").value(Matchers.empty()));
+    }
+
+    @Test
+    public void getPlanes_onePlane_oneElement() throws Exception {
+        createTestPlane();
+
+        mvc.perform(get("/api/planes")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", Matchers.hasSize(1)));
+    }
+
+    @Test
+    public void getPlanes_onePlane_theAddedPlane() throws Exception {
+        Plane plane = createTestPlane();
+
+        mvc.perform(get("/api/planes")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0]").value(planeMapper.toDto(plane)));
     }
 
     @AfterEach
