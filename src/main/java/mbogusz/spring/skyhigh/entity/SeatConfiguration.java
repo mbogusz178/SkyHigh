@@ -1,9 +1,6 @@
 package mbogusz.spring.skyhigh.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import mbogusz.spring.skyhigh.util.Identifiable;
 
 import javax.persistence.*;
@@ -17,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "seat_configuration")
+@ToString
 public class SeatConfiguration implements Identifiable<Long> {
 
     @Id
@@ -34,8 +32,8 @@ public class SeatConfiguration implements Identifiable<Long> {
     @JoinTable(name = "seat_class_ranges_seat_config", joinColumns = { @JoinColumn(name = "seat_config_id") }, inverseJoinColumns = { @JoinColumn(name = "seat_class_range_id") })
     private Set<SeatClassRange> seatClassRanges = new HashSet<>();
 
-    @OneToMany(mappedBy = "seatConfiguration", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Plane> planesWithSeatConfig = new HashSet<>();
+//    @OneToMany(mappedBy = "seatConfiguration", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    private Set<Plane> planesWithSeatConfig = new HashSet<>();
 
     public int getSeatCount() {
         return getRowSize() * numRows;

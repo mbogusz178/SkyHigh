@@ -49,7 +49,9 @@ public abstract class FlightMapper extends EntityMapper<Long, Flight, FlightDTO>
     @Mappings({
             @Mapping(source = "source", target = "source", qualifiedByName = "airportToId"),
             @Mapping(source = "destination", target = "destination", qualifiedByName = "airportToId"),
-            @Mapping(source = "plane", target = "plane", qualifiedByName = "planeToId")
+            @Mapping(source = "plane", target = "plane", qualifiedByName = "planeToId"),
+            @Mapping(source = "departureDate", target = "departureDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            @Mapping(source = "arrivalDate", target = "arrivalDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     })
     @Override
     public abstract FlightDTO toDto(Flight entity);

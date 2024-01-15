@@ -30,9 +30,9 @@ public class Airport implements Identifiable<String> {
     @Column(name = "country", nullable = false)
     private String country;
 
-    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Flight> flightsFrom;
-
-    @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Flight> flightsTo;
+//    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    private Set<Flight> flightsFrom;
+//
+//    @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    private Set<Flight> flightsTo;
 }
